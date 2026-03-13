@@ -67,13 +67,13 @@ Item {
     function addPlugin(url: string): void {
         if (!url || root.addingInProgress) return
         root.addingInProgress = true
-        addProcess.command = ["/usr/bin/python3", Quickshell.shellPath("scripts/add-plugin.py"), "--url", url]
+        addProcess.command = ["python3", Quickshell.shellPath("scripts/add-plugin.py"), "--url", url]
         addProcess.running = true
     }
 
     function removePlugin(id: string): void {
         root.pluginRemoved(id)
-        removeProcess.command = ["/usr/bin/rm", "-rf",
+        removeProcess.command = ["rm", "-rf",
             FileUtils.trimFileProtocol(`${Directories.config}/illogical-impulse/plugins/${id}`)]
         removeProcess.running = true
     }
@@ -81,7 +81,7 @@ Item {
     // ─── Processes ───────────────────────────────────────────────────
     Process {
         id: scanProcess
-        command: ["/usr/bin/python3", Quickshell.shellPath("scripts/scan-plugins.py")]
+        command: ["python3", Quickshell.shellPath("scripts/scan-plugins.py")]
         stdout: SplitParser {
             onRead: data => root._parsePluginList(data)
         }

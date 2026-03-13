@@ -209,7 +209,7 @@ ContentPage {
     Process {
         id: recordingCapabilityProbe
         running: true
-        command: ["/usr/bin/bash", "-lc", "python3 - <<'PY'\nimport glob, json, subprocess\n\nenc = subprocess.run(['ffmpeg', '-hide_banner', '-encoders'], capture_output=True, text=True).stdout.splitlines()\nencoders = set()\nfor line in enc:\n    parts = line.split()\n    if len(parts) >= 2:\n        encoders.add(parts[1])\nvideo = [c for c in ['h264_vaapi','hevc_vaapi','vp9_vaapi','av1_vaapi','libx264','libx265'] if c in encoders]\naudio = [c for c in ['aac','libopus','opus'] if c in encoders]\nsources_raw = subprocess.run(['pactl', 'list', 'sources', 'short'], capture_output=True, text=True).stdout.splitlines()\nsources = []\nfor line in sources_raw:\n    parts = line.split()\n    if len(parts) >= 2:\n        sources.append(parts[1])\ndefault_sink = subprocess.run(['pactl', 'get-default-sink'], capture_output=True, text=True).stdout.strip()\ndevices = sorted(glob.glob('/dev/dri/renderD*'))\nprint(json.dumps({\n    'videoCodecs': video,\n    'audioCodecs': audio,\n    'audioSources': sources,\n    'hardwareDevices': devices,\n    'defaultSink': default_sink\n}))\nPY"]
+        command: ["bash", "-lc", "python3 - <<'PY'\nimport glob, json, subprocess\n\nenc = subprocess.run(['ffmpeg', '-hide_banner', '-encoders'], capture_output=True, text=True).stdout.splitlines()\nencoders = set()\nfor line in enc:\n    parts = line.split()\n    if len(parts) >= 2:\n        encoders.add(parts[1])\nvideo = [c for c in ['h264_vaapi','hevc_vaapi','vp9_vaapi','av1_vaapi','libx264','libx265'] if c in encoders]\naudio = [c for c in ['aac','libopus','opus'] if c in encoders]\nsources_raw = subprocess.run(['pactl', 'list', 'sources', 'short'], capture_output=True, text=True).stdout.splitlines()\nsources = []\nfor line in sources_raw:\n    parts = line.split()\n    if len(parts) >= 2:\n        sources.append(parts[1])\ndefault_sink = subprocess.run(['pactl', 'get-default-sink'], capture_output=True, text=True).stdout.strip()\ndevices = sorted(glob.glob('/dev/dri/renderD*'))\nprint(json.dumps({\n    'videoCodecs': video,\n    'audioCodecs': audio,\n    'audioSources': sources,\n    'hardwareDevices': devices,\n    'defaultSink': default_sink\n}))\nPY"]
         stdout: StdioCollector {
             id: recordingCapabilityCollector
             onStreamFinished: root.updateRecordingCapabilities(recordingCapabilityCollector.text)
@@ -2249,10 +2249,10 @@ ContentPage {
                     visible: Config.options?.sidebar?.widgets?.launch ?? true
 
                     property var shortcuts: Config.options?.sidebar?.widgets?.quickLaunch ?? [
-                        { icon: "folder", name: "Files", cmd: "/usr/bin/nautilus" },
-                        { icon: "terminal", name: "Terminal", cmd: "/usr/bin/kitty" },
-                        { icon: "web", name: "Browser", cmd: "/usr/bin/firefox" },
-                        { icon: "code", name: "Code", cmd: "/usr/bin/code" }
+                        { icon: "folder", name: "Files", cmd: "nautilus" },
+                        { icon: "terminal", name: "Terminal", cmd: "kitty" },
+                        { icon: "web", name: "Browser", cmd: "firefox" },
+                        { icon: "code", name: "Code", cmd: "code" }
                     ]
 
                     property int pendingIndex: -1

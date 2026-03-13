@@ -492,8 +492,8 @@ Singleton {
         }
 
         if (appIcon && appIcon.length > 0) {
-            const cmd = "/usr/bin/gtk-launch \"" + appIcon + "\" || \"" + appIcon + "\"";
-            Quickshell.execDetached(["/usr/bin/bash", "-lc", cmd]);
+            const cmd = "gtk-launch \"" + appIcon + "\" || \"" + appIcon + "\"";
+            Quickshell.execDetached(["bash", "-lc", cmd]);
         }
     }
 
@@ -559,7 +559,7 @@ Singleton {
         for (let i = 0; i < tests.length; ++i) {
             const t = tests[i];
             Quickshell.execDetached([
-                "/usr/bin/notify-send",
+                "notify-send",
                 "-h", "int:transient:1",
                 "-a", "Quickshell ii",
                 "-i", t.icon,
@@ -624,7 +624,7 @@ Singleton {
                 console.log("[Notifications] File not found, creating new file.")
                 // Ensure parent directory exists
                 const parentDir = root.filePath.substring(0, root.filePath.lastIndexOf('/'))
-                Process.exec(["/usr/bin/mkdir", "-p", parentDir])
+                Process.exec(["mkdir", "-p", parentDir])
                 root.list = []
                 notifFileView.setText(stringifyList(root.list));
             } else {

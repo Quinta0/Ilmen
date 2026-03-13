@@ -95,7 +95,7 @@ Singleton {
         }
         
         // No window found - launch app (use login shell for proper PATH including ~/.local/bin)
-        Quickshell.execDetached(["/usr/bin/bash", "-lc", appInfo.launch]);
+        Quickshell.execDetached(["bash", "-lc", appInfo.launch]);
         return true;
     }
     
@@ -143,7 +143,7 @@ Singleton {
             
             // For harmless apps (like Spotify usually), try launching to restore
             root._log(`[TrayService] Window not found for ${id}, executing launch: ${appInfo.launch}`);
-            Quickshell.execDetached(["/usr/bin/bash", "-lc", appInfo.launch]);
+            Quickshell.execDetached(["bash", "-lc", appInfo.launch]);
             return true;
         }
         
@@ -235,7 +235,7 @@ Singleton {
 
     Process {
         id: xembedProxyCheckProc
-        command: ["/usr/bin/pgrep", "-x", "xembedsniproxy"]
+        command: ["pgrep", "-x", "xembedsniproxy"]
         onExited: (exitCode, exitStatus) => {
             root._xembedProxyCheckedOnce = true;
             if (exitCode !== 0) {
@@ -254,10 +254,10 @@ Singleton {
             onRead: (line) => root._log("[xembedsniproxy]", line)
         }
         command: [
-            "/usr/bin/env",
+            "env",
             "QT_NO_XDG_DESKTOP_PORTAL=1",
             "QT_QPA_PLATFORM=xcb",
-            "/usr/bin/xembedsniproxy"
+            "xembedsniproxy"
         ]
         onExited: (exitCode, exitStatus) => {
             root._log("[xembedsniproxy] exited", exitCode, exitStatus)

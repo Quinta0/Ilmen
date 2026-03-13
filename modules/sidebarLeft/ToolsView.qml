@@ -139,17 +139,17 @@ Item {
                     ActionTile {
                         tileIcon: "screenshot_region"
                         label: Translation.tr("Region")
-                        onClicked: Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "region", "screenshot"])
+                        onClicked: Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "region", "screenshot"])
                     }
                     ActionTile {
                         tileIcon: "videocam"
                         label: Translation.tr("Record")
-                        onClicked: Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "region", "record"])
+                        onClicked: Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "region", "record"])
                     }
                     ActionTile {
                         tileIcon: "text_fields"
                         label: Translation.tr("OCR")
-                        onClicked: Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "region", "ocr"])
+                        onClicked: Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "region", "ocr"])
                     }
                     ActionTile {
                         tileIcon: "colorize"
@@ -185,27 +185,27 @@ Item {
                     ActionTile {
                         tileIcon: "folder"
                         label: Translation.tr("Files")
-                        onClicked: Quickshell.execDetached(["/usr/bin/nautilus"])
+                        onClicked: Quickshell.execDetached(["nautilus"])
                     }
                     ActionTile {
                         tileIcon: "settings"
                         label: Translation.tr("Settings")
-                        onClicked: Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "settings", "open"])
+                        onClicked: Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "settings", "open"])
                     }
                     ActionTile {
                         tileIcon: "tune"
                         label: Translation.tr("Audio")
-                        onClicked: Quickshell.execDetached([Config.options?.apps?.volumeMixer ?? "/usr/bin/pavucontrol"])
+                        onClicked: Quickshell.execDetached([Config.options?.apps?.volumeMixer ?? "pavucontrol"])
                     }
                     ActionTile {
                         tileIcon: "language"
                         label: Translation.tr("Browser")
-                        onClicked: Quickshell.execDetached([Config.options?.apps?.browser ?? "/usr/bin/firefox"])
+                        onClicked: Quickshell.execDetached([Config.options?.apps?.browser ?? "firefox"])
                     }
                     ActionTile {
                         tileIcon: "code"
                         label: Translation.tr("Editor")
-                        onClicked: Quickshell.execDetached([Config.options?.apps?.editor ?? "/usr/bin/code"])
+                        onClicked: Quickshell.execDetached([Config.options?.apps?.editor ?? "code"])
                     }
                 }
             }
@@ -286,7 +286,7 @@ Item {
                 ActionButton {
                     btnIcon: "restart_alt"
                     label: Translation.tr("Restart shell")
-                    onClicked: Quickshell.execDetached(["/usr/bin/fish", "-c", "qs kill -c ii; qs -c ii -d"])
+                    onClicked: Quickshell.execDetached(["fish", "-c", "qs kill -c ii; qs -c ii -d"])
                 }
                 ActionButton {
                     btnIcon: "lock"
@@ -310,17 +310,17 @@ Item {
                 ActionButton {
                     btnIcon: "system_update"
                     label: Translation.tr("Check for updates")
-                    onClicked: Quickshell.execDetached([Config.options?.apps?.terminal ?? "/usr/bin/kitty", "-e", "fish", "-c", "yay -Syu; read -P 'Press Enter to close...'"])
+                    onClicked: Quickshell.execDetached([Config.options?.apps?.terminal ?? "kitty", "-e", "fish", "-c", "yay -Syu; read -P 'Press Enter to close...'"])
                 }
                 ActionButton {
                     btnIcon: "cleaning_services"
                     label: Translation.tr("Clean package cache")
-                    onClicked: Quickshell.execDetached([Config.options?.apps?.terminal ?? "/usr/bin/kitty", "-e", "fish", "-c", "sudo paccache -rk1; read -P 'Press Enter to close...'"])
+                    onClicked: Quickshell.execDetached([Config.options?.apps?.terminal ?? "kitty", "-e", "fish", "-c", "sudo paccache -rk1; read -P 'Press Enter to close...'"])
                 }
                 ActionButton {
                     btnIcon: "info"
                     label: Translation.tr("System info")
-                    onClicked: Quickshell.execDetached([Config.options?.apps?.terminal ?? "/usr/bin/kitty", "-e", "fish", "-c", "fastfetch; read -P 'Press Enter to close...'"])
+                    onClicked: Quickshell.execDetached([Config.options?.apps?.terminal ?? "kitty", "-e", "fish", "-c", "fastfetch; read -P 'Press Enter to close...'"])
                 }
             }
 

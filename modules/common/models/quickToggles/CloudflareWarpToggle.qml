@@ -10,8 +10,8 @@ QuickToggleModel {
     id: root
     name: Translation.tr("Cloudflare WARP")
 
-    readonly property string warpCliPath: "/usr/bin/warp-cli"
-    readonly property string notifySendPath: "/usr/bin/notify-send"
+    readonly property string warpCliPath: "warp-cli"
+    readonly property string notifySendPath: "notify-send"
 
     available: false
     toggled: false
@@ -128,7 +128,7 @@ QuickToggleModel {
 
     Process {
         id: startServiceProc
-        command: ["/usr/bin/systemctl", "start", "warp-svc.service"]
+        command: ["systemctl", "start", "warp-svc.service"]
         onExited: (exitCode, exitStatus) => {
             if (exitCode !== 0) {
                 Quickshell.execDetached([root.notifySendPath,

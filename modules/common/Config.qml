@@ -94,7 +94,7 @@ Singleton {
                 console.log("[Config] File not found, creating new file.")
                 // Ensure parent directory exists
                 const parentDir = root.filePath.substring(0, root.filePath.lastIndexOf('/'))
-                Process.exec(["/usr/bin/mkdir", "-p", parentDir])
+                Process.exec(["mkdir", "-p", parentDir])
                 writeAdapter();
             }
             // Set ready even on failure so UI doesn't stay blank
@@ -1131,10 +1131,10 @@ Singleton {
 
                     // QuickLaunch shortcuts
                     property list<var> quickLaunch: [
-                        { "icon": "folder", "name": "Files", "cmd": "/usr/bin/nautilus" },
-                        { "icon": "terminal", "name": "Terminal", "cmd": "/usr/bin/kitty" },
-                        { "icon": "web", "name": "Browser", "cmd": "/usr/bin/firefox" },
-                        { "icon": "code", "name": "Code", "cmd": "/usr/bin/code" }
+                        { "icon": "folder", "name": "Files", "cmd": "nautilus" },
+                        { "icon": "terminal", "name": "Terminal", "cmd": "kitty" },
+                        { "icon": "web", "name": "Browser", "cmd": "firefox" },
+                        { "icon": "code", "name": "Code", "cmd": "code" }
                     ]
 
                     // QuickWallpaper settings

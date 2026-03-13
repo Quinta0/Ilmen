@@ -67,7 +67,7 @@ Singleton {
     Process {
         id: detectGpuUsageSource
         // Prefer native DRM sysfs counters. Fall back to nvidia-smi if present.
-        command: ["/usr/bin/bash", "-c", `
+        command: ["bash", "-c", `
             for card in /sys/class/drm/card*; do
                 path="$card/device/gpu_busy_percent"
                 if [ -f "$path" ]; then
@@ -99,7 +99,7 @@ Singleton {
 
     Process {
         id: nvidiaGpuUsageProc
-        command: ["/usr/bin/bash", "-c", "/usr/bin/nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | /usr/bin/head -n 1"]
+        command: ["bash", "-c", "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | head -n 1"]
         running: false
         stdout: StdioCollector {
             id: nvidiaGpuUsageCollector
@@ -260,7 +260,7 @@ Singleton {
         id: detectTempSensors
         // Detect CPU and GPU temperature sensors
         // Extended support for older hardware, laptops, and various platforms
-        command: ["/usr/bin/bash", "-c", `
+        command: ["bash", "-c", `
             cpu_found=""
             gpu_found=""
 
@@ -322,7 +322,7 @@ Singleton {
             LANG: "C",
             LC_ALL: "C"
         })
-        command: ["/usr/bin/bash", "-c", "/usr/bin/lscpu | /usr/bin/grep 'CPU max MHz' | /usr/bin/awk '{print $4}'"]
+        command: ["bash", "-c", "lscpu | grep 'CPU max MHz' | awk '{print $4}'"]
         running: false
         stdout: StdioCollector {
             id: outputCollector
@@ -339,7 +339,7 @@ Singleton {
 
     Process {
         id: diskProc
-        command: ["/usr/bin/df", "-B1", "/"]
+        command: ["df", "-B1", "/"]
         running: false
         stdout: StdioCollector {
             id: diskCollector

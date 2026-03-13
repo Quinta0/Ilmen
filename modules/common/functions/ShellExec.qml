@@ -10,15 +10,15 @@ import qs.modules.common
 Singleton {
     id: root
 
-    readonly property string fishPath: "/usr/bin/fish"
-    readonly property string bashPath: "/usr/bin/bash"
+    readonly property string fishPath: "fish"
+    readonly property string bashPath: "bash"
 
     // -1 unknown, 0 no, 1 yes
     property int _fishAvailable: -1
 
     Process {
         id: fishCheckProc
-        command: ["/usr/bin/test", "-x", root.fishPath]
+        command: ["test", "-x", root.fishPath]
         onExited: (exitCode, exitStatus) => {
             root._fishAvailable = (exitCode === 0) ? 1 : 0
         }

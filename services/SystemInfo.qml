@@ -105,7 +105,7 @@ Singleton {
 
     Process {
         id: getUsername
-        command: ["/usr/bin/whoami"]
+        command: ["whoami"]
         stdout: SplitParser {
             onRead: data => {
                 root.username = data.trim()
@@ -117,7 +117,7 @@ Singleton {
     Process {
         id: getDisplayName
         running: false
-        command: ["/usr/bin/bash", "-lc", `getent passwd "${root.username}" | cut -d: -f5 | cut -d, -f1`]
+        command: ["bash", "-lc", `getent passwd "${root.username}" | cut -d: -f5 | cut -d, -f1`]
         stdout: StdioCollector {
             id: displayNameCollector
             onStreamFinished: {
@@ -130,7 +130,7 @@ Singleton {
     Process {
         id: getDesktopEnvironment
         running: false
-        command: ["/usr/bin/bash", "-c", "echo $XDG_CURRENT_DESKTOP,$WAYLAND_DISPLAY"]
+        command: ["bash", "-c", "echo $XDG_CURRENT_DESKTOP,$WAYLAND_DISPLAY"]
         stdout: StdioCollector {
             id: deCollector
             onStreamFinished: {

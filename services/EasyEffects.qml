@@ -32,7 +32,7 @@ Singleton {
     function enable() {
         root.active = true
         // Use execDetached to avoid process management issues that can crash the shell
-        Quickshell.execDetached(["/usr/bin/bash", "-lc", "/usr/bin/easyeffects --gapplication-service || /usr/bin/flatpak run com.github.wwmm.easyeffects --gapplication-service"])
+        Quickshell.execDetached(["bash", "-lc", "easyeffects --gapplication-service || flatpak run com.github.wwmm.easyeffects --gapplication-service"])
     }
 
     function toggle() {
@@ -65,7 +65,7 @@ Singleton {
     Process {
         id: whichProc
         running: false
-        command: ["/usr/bin/which", "easyeffects"]
+        command: ["which", "easyeffects"]
         onExited: (exitCode, exitStatus) => {
             if (exitCode === 0) {
                 root.available = true
@@ -87,7 +87,7 @@ Singleton {
     Process {
         id: pidofProc
         running: false
-        command: ["/usr/bin/pidof", "easyeffects"]
+        command: ["pidof", "easyeffects"]
         onExited: (exitCode, exitStatus) => {
             if (exitCode === 0) {
                 root.active = true
@@ -113,7 +113,7 @@ Singleton {
     Process {
         id: pkillProc
         running: false
-        command: ["/usr/bin/pkill", "easyeffects"]
+        command: ["pkill", "easyeffects"]
         onExited: (exitCode, exitStatus) => {
             if (exitCode !== 0) {
                 flatpakKillProc.running = true

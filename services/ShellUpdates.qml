@@ -173,7 +173,7 @@ Singleton {
         // Use execDetached so the update script survives shell restart
         // (./setup update calls qs kill -c ii at the end)
         // Must cd to repo dir first — setup expects to run from its own directory
-        Quickshell.execDetached(["/usr/bin/bash", "-c",
+        Quickshell.execDetached(["bash", "-c",
             "cd '" + root.repoPath + "' && ./setup update -y -q"])
         print("[ShellUpdates] Update launched (detached) from: " + root.repoPath)
         // Shell will be restarted by ./setup update, so just mark state
@@ -272,7 +272,7 @@ Singleton {
         id: validateRepoPathProc
         running: false
         command: [
-            "/usr/bin/bash", "-c",
+            "bash", "-c",
             "p='" + root.repoPath + "'; [[ -d \"$p/.git\" && -f \"$p/setup\" && -f \"$p/shell.qml\" ]] && echo OK || echo ''"
         ]
         stdout: StdioCollector {
@@ -299,7 +299,7 @@ Singleton {
         id: searchRepoProc
         running: false
         command: [
-            "/usr/bin/bash", "-c",
+            "bash", "-c",
             // First check if config dir itself is a git repo (dev setup)
             "if [[ -d \"" + root.configDir + "/.git\" ]]; then echo \"" + root.configDir + "\"; exit 0; fi; " +
             // Search for a git repo containing setup + shell.qml (our repo signature)
@@ -339,7 +339,7 @@ Singleton {
         id: persistRepoPathProc
         running: false
         command: [
-            "/usr/bin/bash", "-c",
+            "bash", "-c",
             "vfile='" + Directories.shellConfig + "/version.json'; " +
             "if [[ -f \"$vfile\" ]] && command -v jq &>/dev/null; then " +
             "  tmp=$(mktemp); " +
@@ -407,7 +407,7 @@ Singleton {
         id: manifestInfoProc
         running: false
         command: [
-            "/usr/bin/bash", "-c",
+            "bash", "-c",
             "manifest='" + root.manifestPath + "'; " +
             "[[ -f \"$manifest\" ]] || exit 1; " +
             "head -3 \"$manifest\" | grep -E '^# (generated|commit):' | sed 's/^# //'"
@@ -456,7 +456,7 @@ Singleton {
         id: localVersionStartupProc
         running: false
         command: [
-            "/usr/bin/bash", "-c",
+            "bash", "-c",
             "cat '" + root.repoPath + "/VERSION' 2>/dev/null || cat '" + root.configDir + "/VERSION' 2>/dev/null || echo ''"
         ]
         stdout: StdioCollector {
@@ -703,7 +703,7 @@ Singleton {
         id: localVersionProc
         running: false
         command: [
-            "/usr/bin/bash", "-c",
+            "bash", "-c",
             "cat '" + root.repoPath + "/VERSION' 2>/dev/null || cat '" + root.configDir + "/VERSION' 2>/dev/null || echo ''"
         ]
         stdout: StdioCollector {
@@ -721,7 +721,7 @@ Singleton {
         id: remoteChangelogProc
         running: false
         command: [
-            "/usr/bin/bash", "-c",
+            "bash", "-c",
             "git -C '" + root.repoPath + "' show 'origin/" + root._remoteBranch + ":CHANGELOG.md' 2>/dev/null | head -200"
         ]
         stdout: StdioCollector {
@@ -739,7 +739,7 @@ Singleton {
         id: localModsProc
         running: false
         command: [
-            "/usr/bin/bash", "-c",
+            "bash", "-c",
             "manifest='" + root.manifestPath + "'; " +
             "target='" + root.configDir + "'; " +
             "repo='" + root.repoPath + "'; " +

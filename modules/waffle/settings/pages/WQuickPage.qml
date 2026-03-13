@@ -352,7 +352,7 @@ WSettingsPage {
                         } else {
                             Config.setNestedValue("wallpaperSelector.selectionTarget", useMain ? "main" : "waffle")
                         }
-                        Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"])
+                        Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"])
                     }
                 }
             }
@@ -513,7 +513,7 @@ WSettingsPage {
                 Layout.fillWidth: true
                 text: Translation.tr("Reload shell")
                 icon.name: "arrow-sync"
-                onClicked: Quickshell.execDetached(["/usr/bin/setsid", "/usr/bin/fish", "-c", "qs kill -c ii; sleep 0.3; qs -c ii"])
+                onClicked: Quickshell.execDetached(["setsid", "fish", "-c", "qs kill -c ii; sleep 0.3; qs -c ii"])
             }
             
             WButton {
@@ -527,7 +527,7 @@ WSettingsPage {
                 Layout.fillWidth: true
                 text: Translation.tr("Shortcuts")
                 icon.name: "keyboard"
-                onClicked: Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "cheatsheet", "toggle"])
+                onClicked: Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "cheatsheet", "toggle"])
             }
         }
         

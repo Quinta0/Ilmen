@@ -63,7 +63,7 @@ ContentPage {
                 mainText: Translation.tr("Pick main wallpaper")
                 onClicked: {
                     Config.setNestedValue("wallpaperSelector.selectionTarget", "main")
-                    Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"]);
+                    Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"]);
                 }
             }
 
@@ -75,7 +75,7 @@ ContentPage {
                 mainText: Translation.tr("Pick Waffle wallpaper")
                 onClicked: {
                     Config.setNestedValue("wallpaperSelector.selectionTarget", "waffle")
-                    Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"]);
+                    Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"]);
                 }
             }
 
@@ -209,7 +209,7 @@ ContentPage {
                 mainText: Translation.tr("Pick backdrop wallpaper")
                 onClicked: {
                     Config.setNestedValue("wallpaperSelector.selectionTarget", "waffle-backdrop")
-                    Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"]);
+                    Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"]);
                 }
             }
 

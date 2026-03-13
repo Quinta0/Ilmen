@@ -34,7 +34,7 @@ Item {
 
     function lockScreen(): void {
         GlobalStates.controlPanelOpen = false
-        Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "lock", "activate"])
+        Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "lock", "activate"])
     }
 
     RowLayout {

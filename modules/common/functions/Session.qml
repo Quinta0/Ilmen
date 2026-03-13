@@ -13,9 +13,9 @@ Singleton {
         repeat: false
         onTriggered: {
             if (CompositorService.isNiri) {
-                Quickshell.execDetached(["/usr/bin/niri", "msg", "action", "power-off-monitors"])
+                Quickshell.execDetached(["niri", "msg", "action", "power-off-monitors"])
             } else if (CompositorService.isHyprland) {
-                Quickshell.execDetached(["/usr/bin/hyprctl", "dispatch", "dpms", "off"])
+                Quickshell.execDetached(["hyprctl", "dispatch", "dpms", "off"])
             }
         }
     }
@@ -25,8 +25,8 @@ Singleton {
         interval: 900
         repeat: false
         onTriggered: {
-            Quickshell.execDetached(["/usr/bin/systemctl", "hibernate", "-i"])
-            Quickshell.execDetached(["/usr/bin/loginctl", "hibernate"])
+            Quickshell.execDetached(["systemctl", "hibernate", "-i"])
+            Quickshell.execDetached(["loginctl", "hibernate"])
         }
     }
 
@@ -35,7 +35,7 @@ Singleton {
         interval: 600
         repeat: false
         onTriggered: {
-            Quickshell.execDetached(["/usr/bin/systemctl", "suspend", "-i"])
+            Quickshell.execDetached(["systemctl", "suspend", "-i"])
         }
     }
 
@@ -45,12 +45,12 @@ Singleton {
             return;
 
         HyprlandData.windowList.map(w => w.pid).forEach(pid => {
-            Quickshell.execDetached(["/usr/bin/kill", pid]);
+            Quickshell.execDetached(["kill", pid]);
         });
     }
 
     function lock() {
-        Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "lock", "activate"]);
+        Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "lock", "activate"]);
     }
 
     function suspend() {
@@ -58,7 +58,7 @@ Singleton {
             lock()
             _suspendTimer.restart()
         } else {
-            Quickshell.execDetached(["/usr/bin/systemctl", "suspend", "-i"])
+            Quickshell.execDetached(["systemctl", "suspend", "-i"])
         }
     }
 
@@ -69,12 +69,12 @@ Singleton {
         }
 
         closeAllWindows();
-        Quickshell.execDetached(["/usr/bin/pkill", "-i", "Hyprland"]);
+        Quickshell.execDetached(["pkill", "-i", "Hyprland"]);
     }
 
     function launchTaskManager() {
         const cmd = Config.options?.apps?.taskManager ?? "missioncenter"
-        Quickshell.execDetached(["/usr/bin/bash", "-lc", cmd])
+        Quickshell.execDetached(["bash", "-lc", cmd])
     }
 
     function hibernate() {
@@ -85,19 +85,19 @@ Singleton {
 
     function poweroff() {
         closeAllWindows();
-        Quickshell.execDetached(["/usr/bin/systemctl", "poweroff", "-i"])
-        Quickshell.execDetached(["/usr/bin/loginctl", "poweroff"])
+        Quickshell.execDetached(["systemctl", "poweroff", "-i"])
+        Quickshell.execDetached(["loginctl", "poweroff"])
     }
 
     function reboot() {
         closeAllWindows();
-        Quickshell.execDetached(["/usr/bin/systemctl", "reboot", "-i"])
-        Quickshell.execDetached(["/usr/bin/loginctl", "reboot"])
+        Quickshell.execDetached(["systemctl", "reboot", "-i"])
+        Quickshell.execDetached(["loginctl", "reboot"])
     }
 
     function rebootToFirmware() {
         closeAllWindows();
-        Quickshell.execDetached(["/usr/bin/systemctl", "reboot", "--firmware-setup"])
-        Quickshell.execDetached(["/usr/bin/loginctl", "reboot", "--firmware-setup"])
+        Quickshell.execDetached(["systemctl", "reboot", "--firmware-setup"])
+        Quickshell.execDetached(["loginctl", "reboot", "--firmware-setup"])
     }
 }

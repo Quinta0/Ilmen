@@ -182,10 +182,10 @@ Singleton {
         const oggPath = `/usr/share/sounds/${root.audioTheme}/stereo/${soundName}.ogg`;
 
         // pw-play volume range: 0.0 to 1.0
-        let command = ["/usr/bin/pw-play", "--volume", volume.toString(), ogaPath];
+        let command = ["pw-play", "--volume", volume.toString(), ogaPath];
         Quickshell.execDetached(command);
 
-        command = ["/usr/bin/pw-play", "--volume", volume.toString(), oggPath];
+        command = ["pw-play", "--volume", volume.toString(), oggPath];
         Quickshell.execDetached(command);
     }
 

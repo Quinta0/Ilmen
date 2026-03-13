@@ -256,11 +256,11 @@ PanelWindow {
     Process {
         id: screenshotProc
         running: false
-        command: ["/usr/bin/bash", "-c", `/usr/bin/mkdir -p '${StringUtils.shellSingleQuoteEscape(root.screenshotDir)}' && /usr/bin/grim -o '${StringUtils.shellSingleQuoteEscape(root.screen.name)}' '${StringUtils.shellSingleQuoteEscape(root.screenshotPath)}'`]
+        command: ["bash", "-c", `mkdir -p '${StringUtils.shellSingleQuoteEscape(root.screenshotDir)}' && grim -o '${StringUtils.shellSingleQuoteEscape(root.screen.name)}' '${StringUtils.shellSingleQuoteEscape(root.screenshotPath)}'`]
         onExited: (exitCode, exitStatus) => {
             if (exitCode !== 0) {
                 root.screenshotReady = false
-                Quickshell.execDetached(["/usr/bin/notify-send", "Region search failed", "grim failed to capture the screen" , "-a", "Region Selector", "-t", "4000"])
+                Quickshell.execDetached(["notify-send", "Region search failed", "grim failed to capture the screen" , "-a", "Region Selector", "-t", "4000"])
             } else {
                 root.screenshotReady = true
             }
@@ -273,7 +273,7 @@ PanelWindow {
     Process {
         id: checkRecordingProc
         running: isRecording
-        command: ["/usr/bin/pidof", "wf-recorder"]
+        command: ["pidof", "wf-recorder"]
         onExited: (exitCode, exitStatus) => {
             root.preparationDone = !screenshotProc.running
             root.recordingShouldStop = (exitCode === 0);
@@ -292,7 +292,7 @@ PanelWindow {
 
     Process {
         id: imageDetectionProcess
-        command: ["/usr/bin/bash", "-c", `${Directories.scriptPath}/images/find-regions-venv.sh ` 
+        command: ["bash", "-c", `${Directories.scriptPath}/images/find-regions-venv.sh ` 
             + `--image '${StringUtils.shellSingleQuoteEscape(root.screenshotPath)}' ` 
             + `--max-width ${Math.round(root.screen.width * root.falsePositivePreventionRatio)} ` 
             + `--max-height ${Math.round(root.screen.height * root.falsePositivePreventionRatio)} `]
@@ -337,35 +337,35 @@ PanelWindow {
             + `-crop ${rw}x${rh}+${rx}+${ry}`
         const cropToStdout = `${cropBase} -`
         const cropInPlace = `${cropBase} '${StringUtils.shellSingleQuoteEscape(root.screenshotPath)}'`
-        const cleanup = `/usr/bin/rm '${StringUtils.shellSingleQuoteEscape(root.screenshotPath)}'`
+        const cleanup = `rm '${StringUtils.shellSingleQuoteEscape(root.screenshotPath)}'`
         const slurpRegion = `${rx},${ry} ${rw}x${rh}`
         const uploadAndGetUrl = (filePath) => {
             const escaped = StringUtils.shellSingleQuoteEscape(filePath)
-            const primary = `/usr/bin/curl -sf --max-time 10 -F file=@'${escaped}' ${root.fileUploadApiEndpoint}`
-            const fallback1 = `/usr/bin/curl -s --max-time 15 -F reqtype=fileupload -F time=1h -F "fileToUpload=@'${escaped}'" ${root.fileUploadApiFallback}`
-            const fallback2 = `/usr/bin/curl -s --max-time 15 -F reqtype=fileupload -F "fileToUpload=@'${escaped}'" ${root.fileUploadApiFallback2}`
+            const primary = `curl -sf --max-time 10 -F file=@'${escaped}' ${root.fileUploadApiEndpoint}`
+            const fallback1 = `curl -s --max-time 15 -F reqtype=fileupload -F time=1h -F "fileToUpload=@'${escaped}'" ${root.fileUploadApiFallback}`
+            const fallback2 = `curl -s --max-time 15 -F reqtype=fileupload -F "fileToUpload=@'${escaped}'" ${root.fileUploadApiFallback2}`
             // Try primary, then fallback1, then fallback2 if all fail or return empty/non-URL response
             return `url=$(${primary} 2>/dev/null); if [[ -z "$url" || "$url" != http* ]]; then url=$(${fallback1}); fi; if [[ -z "$url" || "$url" != http* ]]; then url=$(${fallback2}); fi; echo "$url"`
         }
         const annotationCommand = `${(Config.options?.regionSelector?.annotation?.useSatty ?? false) ? "satty" : "swappy"} -f -`;
         switch (root.action) {
             case RegionSelection.SnipAction.Copy:
-                snipProc.command = ["/usr/bin/bash", "-c", `_ss="$HOME/Pictures/Screenshots/ss-$(date +%Y%m%d-%H%M%S).png" && mkdir -p "$HOME/Pictures/Screenshots" && ${cropToStdout} | tee "$_ss" | /usr/bin/wl-copy && echo -n "$_ss" | /usr/bin/wl-copy --primary && ${cleanup} && /usr/bin/notify-send "Screenshot copied" "${rw}x${rh} saved to $_ss" -a "Screenshot" -i camera-photo -t 3000`]
+                snipProc.command = ["bash", "-c", `_ss="$HOME/Pictures/Screenshots/ss-$(date +%Y%m%d-%H%M%S).png" && mkdir -p "$HOME/Pictures/Screenshots" && ${cropToStdout} | tee "$_ss" | wl-copy && echo -n "$_ss" | wl-copy --primary && ${cleanup} && notify-send "Screenshot copied" "${rw}x${rh} saved to $_ss" -a "Screenshot" -i camera-photo -t 3000`]
                 break;
             case RegionSelection.SnipAction.Edit:
-                snipProc.command = ["/usr/bin/bash", "-c", `${cropToStdout} | ${annotationCommand} && ${cleanup}`]
+                snipProc.command = ["bash", "-c", `${cropToStdout} | ${annotationCommand} && ${cleanup}`]
                 break;
             case RegionSelection.SnipAction.Search:
-                snipProc.command = ["/usr/bin/bash", "-c", `${cropInPlace} && /usr/bin/xdg-open "${root.imageSearchEngineBaseUrl}$(${uploadAndGetUrl(root.screenshotPath)})" && ${cleanup}`]
+                snipProc.command = ["bash", "-c", `${cropInPlace} && xdg-open "${root.imageSearchEngineBaseUrl}$(${uploadAndGetUrl(root.screenshotPath)})" && ${cleanup}`]
                 break;
             case RegionSelection.SnipAction.CharRecognition:
-                snipProc.command = ["/usr/bin/bash", "-c", `${cropInPlace} && /usr/bin/tesseract '${StringUtils.shellSingleQuoteEscape(root.screenshotPath)}' stdout -l $(/usr/bin/tesseract --list-langs | /usr/bin/awk 'NR>1{print $1}' | /usr/bin/tr '\\n' '+' | /usr/bin/sed 's/\\+$/\\n/') | tee >(/usr/bin/wl-copy --primary) | /usr/bin/wl-copy && ${cleanup} && /usr/bin/notify-send "Text recognized" "OCR text copied to clipboard" -a "OCR" -i edit-find -t 3000`]
+                snipProc.command = ["bash", "-c", `${cropInPlace} && tesseract '${StringUtils.shellSingleQuoteEscape(root.screenshotPath)}' stdout -l $(tesseract --list-langs | awk 'NR>1{print $1}' | tr '\\n' '+' | sed 's/\\+$/\\n/') | tee >(wl-copy --primary) | wl-copy && ${cleanup} && notify-send "Text recognized" "OCR text copied to clipboard" -a "OCR" -i edit-find -t 3000`]
                 break;
             case RegionSelection.SnipAction.Record:
-                snipProc.command = ["/usr/bin/bash", "-c", `${Directories.recordScriptPath} --region '${slurpRegion}'`]
+                snipProc.command = ["bash", "-c", `${Directories.recordScriptPath} --region '${slurpRegion}'`]
                 break;
             case RegionSelection.SnipAction.RecordWithSound:
-                snipProc.command = ["/usr/bin/bash", "-c", `${Directories.recordScriptPath} --region '${slurpRegion}' --sound`]
+                snipProc.command = ["bash", "-c", `${Directories.recordScriptPath} --region '${slurpRegion}' --sound`]
                 break;
             default:
                 root.dismiss();

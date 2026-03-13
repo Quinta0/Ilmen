@@ -116,7 +116,7 @@ Variants {
         Process {
             id: _getWallpaperSizeProc
             property string path: panelRoot.wallpaperSourceRaw
-            command: ["/usr/bin/magick", "identify", "-format", "%w %h", path]
+            command: ["magick", "identify", "-format", "%w %h", path]
             stdout: StdioCollector {
                 id: _sizeOutput
                 onStreamFinished: {

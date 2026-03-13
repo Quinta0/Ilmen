@@ -98,7 +98,7 @@ Singleton {
             // wlsunset: -T high temp (day), -t low temp (night)
             // Force "always night" mode: sunset at 00:00, sunrise at 23:59
             // Must use execDetached so wlsunset keeps running after Process ends
-            Quickshell.execDetached(["/usr/bin/wlsunset", "-T", "6500", "-t", root.colorTemperature.toString(), "-s", "00:00", "-S", "23:59"]);
+            Quickshell.execDetached(["wlsunset", "-T", "6500", "-t", root.colorTemperature.toString(), "-s", "00:00", "-S", "23:59"]);
         } else {
             hyprsunsetStartProc.running = true;
         }
@@ -134,18 +134,18 @@ Singleton {
     // === Hyprland processes ===
     Process {
         id: hyprsunsetStartProc
-        command: ["/usr/bin/bash", "-c", `pidof hyprsunset || /usr/bin/hyprsunset --temperature ${root.colorTemperature}`]
+        command: ["bash", "-c", `pidof hyprsunset || hyprsunset --temperature ${root.colorTemperature}`]
     }
 
     Process {
         id: hyprsunsetKillProc
-        command: ["/usr/bin/pkill", "-x", "hyprsunset"]
+        command: ["pkill", "-x", "hyprsunset"]
     }
 
     Process {
         id: fetchProc
         running: !CompositorService.isNiri
-        command: ["/usr/bin/bash", "-c", "hyprctl hyprsunset temperature"]
+        command: ["bash", "-c", "hyprctl hyprsunset temperature"]
         stdout: StdioCollector {
             id: stateCollector
             onStreamFinished: {
@@ -161,7 +161,7 @@ Singleton {
     // === Niri processes (wlsunset) ===
     Process {
         id: wlsunsetKillProc
-        command: ["/usr/bin/pkill", "-x", "wlsunset"]
+        command: ["pkill", "-x", "wlsunset"]
         onExited: {
             // If we're enabling, start wlsunset after kill completes
             if (root.active) {
@@ -176,7 +176,7 @@ Singleton {
     Process {
         id: niriFetchProc
         running: CompositorService.isNiri
-        command: ["/usr/bin/pidof", "wlsunset"]
+        command: ["pidof", "wlsunset"]
         onExited: (exitCode, exitStatus) => {
             root.active = (exitCode === 0);
         }
@@ -211,7 +211,7 @@ Singleton {
                 root._pendingRestart = true;
                 restartDebounce.restart();
             } else {
-                Quickshell.execDetached(["/usr/bin/hyprctl", "hyprsunset", "temperature", `${temp}`]);
+                Quickshell.execDetached(["hyprctl", "hyprsunset", "temperature", `${temp}`]);
             }
         }
     }

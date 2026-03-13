@@ -78,7 +78,7 @@ Singleton {
             if (applyExternal) {
                 Qt.callLater(() => {
                     Quickshell.execDetached([
-                        "/usr/bin/bash",
+                        "bash",
                         Directories.scriptPath + "/colors/applycolor.sh"
                     ]);
                 });
@@ -87,7 +87,7 @@ Singleton {
             if (applyExternal && vesktopEnabled) {
                 Qt.callLater(() => {
                     Quickshell.execDetached([
-                        "/usr/bin/python3",
+                        "python3",
                         Directories.scriptPath + "/colors/system24_palette.py"
                     ]);
                 });

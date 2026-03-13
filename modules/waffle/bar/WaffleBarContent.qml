@@ -43,7 +43,7 @@ Rectangle {
                 iconName: "pulse",
                 text: Translation.tr("Task Manager"),
                 action: () => {
-                    Quickshell.execDetached(["/usr/bin/missioncenter"])
+                    Quickshell.execDetached(["missioncenter"])
                 }
             },
             { type: "separator" },
@@ -51,7 +51,7 @@ Rectangle {
                 iconName: "settings",
                 text: Translation.tr("Taskbar settings"),
                 action: () => {
-                    Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "settings", "open"])
+                    Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "settings", "open"])
                 }
             }
         ]

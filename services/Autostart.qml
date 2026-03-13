@@ -73,7 +73,7 @@ Singleton {
     Process {
         id: startDesktopProc
         property string desktopId: ""
-        command: ["/usr/bin/gtk-launch", startDesktopProc.desktopId]
+        command: ["gtk-launch", startDesktopProc.desktopId]
         onExited: (exitCode, exitStatus) => {
             if (exitCode !== 0 && startDesktopProc.desktopId.length > 0) {
                 Quickshell.execDetached([startDesktopProc.desktopId])
@@ -90,20 +90,20 @@ Singleton {
         if (cmd.length === 0)
             return;
 
-        Quickshell.execDetached(["/usr/bin/bash", "-lc", cmd]);
+        Quickshell.execDetached(["bash", "-lc", cmd]);
     }
 
     Process {
         id: systemdListProc
         property var buffer: []
         command: [
-            "/usr/bin/bash", "-lc",
+            "bash", "-lc",
             "dir=\"$HOME/.config/systemd/user\"; "
             + "[ -d \"$dir\" ] || exit 0; "
             + "for f in \"$dir\"/*.service; do "
             + "[ -e \"$f\" ] || continue; "
             + "name=$(basename \"$f\"); "
-            + "enabled=$(/usr/bin/systemctl --user is-enabled \"$name\" 2>/dev/null || echo disabled); "
+            + "enabled=$(systemctl --user is-enabled \"$name\" 2>/dev/null || echo disabled); "
             + "desc=$(grep -m1 '^Description=' \"$f\" | cut -d= -f2-); "
             + "wanted=$(grep -m1 '^WantedBy=' \"$f\" | cut -d= -f2-); "
             + "after=$(grep -m1 '^After=' \"$f\" | cut -d= -f2-); "
@@ -189,7 +189,7 @@ Singleton {
                 return;
             const op = enabled ? "enable" : "disable"
             console.log("[Autostart] Toggling user service", name, "->", enabled ? "enabled" : "disabled")
-            exec(["/usr/bin/systemctl", "--user", op, "--now", name])
+            exec(["systemctl", "--user", op, "--now", name])
         }
         onExited: (exitCode, exitStatus) => {
             console.log("[Autostart] systemdToggleProc exited with", exitCode, exitStatus)
@@ -208,7 +208,7 @@ Singleton {
                 return;
             console.log("[Autostart] Activating new user service", unitName)
             const escaped = StringUtils.shellSingleQuoteEscape(unitName)
-            exec(["/usr/bin/bash", "-lc", "/usr/bin/systemctl --user daemon-reload\n/usr/bin/systemctl --user enable --now '" + escaped + "' 2>/dev/null || true"])
+            exec(["bash", "-lc", "systemctl --user daemon-reload\nsystemctl --user enable --now '" + escaped + "' 2>/dev/null || true"])
         }
         onExited: (exitCode, exitStatus) => {
             console.log("[Autostart] systemdCreateProc exited with", exitCode, exitStatus)
@@ -224,14 +224,14 @@ Singleton {
             const home = Quickshell.env("HOME")
             const dir = `${home}/.config/systemd/user`
             console.log("[Autostart] Deleting user service", name)
-            const cmd = "/usr/bin/systemctl --user disable --now '" + name
+            const cmd = "systemctl --user disable --now '" + name
                 + "' 2>/dev/null || true; "
                 // Only remove units that were created by ii Autostart (marker comment)
                 + "if grep -q '^# ii-autostart' '" + dir + "/" + name + "' 2>/dev/null; then "
-                + "/usr/bin/rm -f '" + dir + "/" + name + "' 2>/dev/null || true; "
+                + "rm -f '" + dir + "/" + name + "' 2>/dev/null || true; "
                 + "fi; "
-                + "/usr/bin/systemctl --user daemon-reload"
-            exec(["/usr/bin/bash", "-lc", cmd])
+                + "systemctl --user daemon-reload"
+            exec(["bash", "-lc", cmd])
         }
         onExited: (exitCode, exitStatus) => {
             console.log("[Autostart] systemdDeleteProc exited with", exitCode, exitStatus)
@@ -276,7 +276,7 @@ Singleton {
             + "WantedBy=" + wantedByTarget + "\n"
         console.log("[Autostart] Writing user service file", filePath)
         // Ensure the user systemd directory exists before writing the file
-        Quickshell.execDetached(["/usr/bin/mkdir", "-p", dir])
+        Quickshell.execDetached(["mkdir", "-p", dir])
         userServiceWriter.path = Qt.resolvedUrl(filePath)
         userServiceWriter.setText(text)
         systemdCreateProc.activate(safeName + ".service")

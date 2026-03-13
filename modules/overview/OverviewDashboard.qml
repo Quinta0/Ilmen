@@ -78,7 +78,7 @@ Item {
 
     Process {
         id: artExistsChecker
-        command: ["/usr/bin/test", "-f", root.artFilePath]
+        command: ["test", "-f", root.artFilePath]
         onExited: (exitCode, exitStatus) => {
             if (exitCode === 0) { root.downloaded = true }
             else {
@@ -93,12 +93,12 @@ Item {
         id: artDownloader
         property string targetFile
         property string artPath
-        command: ["/usr/bin/bash", "-c", `
+        command: ["bash", "-c", `
             if [ -f '${artPath}' ]; then exit 0; fi
             mkdir -p '${root.artDownloadLocation}'
             tmp='${artPath}.tmp'
-            /usr/bin/curl -sSL --connect-timeout 8 --max-time 20 '${targetFile}' -o "$tmp" && \
-            [ -s "$tmp" ] && /usr/bin/mv -f "$tmp" '${artPath}' || { rm -f "$tmp"; exit 1; }
+            curl -sSL --connect-timeout 8 --max-time 20 '${targetFile}' -o "$tmp" && \
+            [ -s "$tmp" ] && mv -f "$tmp" '${artPath}' || { rm -f "$tmp"; exit 1; }
         `]
         onExited: (exitCode) => {
             if (exitCode === 0) root.downloaded = true
@@ -446,7 +446,7 @@ Item {
                         buttonRadius: root.angelStyle ? Appearance.angel.roundingSmall : 16
                         colBackground: "transparent"
                         colBackgroundHover: root.colCardHover
-                        onClicked: Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "settings", "open"])
+                        onClicked: Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "settings", "open"])
                         contentItem: MaterialSymbol {
                             anchors.centerIn: parent
                             text: "settings"

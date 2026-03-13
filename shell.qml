@@ -110,14 +110,14 @@ ShellRoot {
 
             if (isWaffle) {
                 // Waffle always opens its own Win11-style settings window
-                Quickshell.execDetached(["/usr/bin/qs", "-n", "-p",
+                Quickshell.execDetached(["qs", "-n", "-p",
                     Quickshell.shellPath("waffleSettings.qml")])
             } else if (Config.options?.settingsUi?.overlayMode ?? false) {
                 // ii overlay mode — toggle inline panel
                 GlobalStates.settingsOverlayOpen = !GlobalStates.settingsOverlayOpen
             } else {
                 // ii window mode (default) — launch separate process
-                Quickshell.execDetached(["/usr/bin/qs", "-n", "-p",
+                Quickshell.execDetached(["qs", "-n", "-p",
                     Quickshell.shellPath("settings.qml")])
             }
         }

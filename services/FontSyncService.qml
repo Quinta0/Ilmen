@@ -81,7 +81,7 @@ Singleton {
         id: gsettingsProc
         running: false
         command: [
-            "/usr/bin/gsettings", "set",
+            "gsettings", "set",
             "org.gnome.desktop.interface", "font-name",
             root.gtkFontString
         ]
@@ -99,7 +99,7 @@ Singleton {
         id: kwriteconfigFontProc
         running: false
         command: [
-            "/usr/bin/kwriteconfig6",
+            "kwriteconfig6",
             "--file", "kdeglobals",
             "--group", "General",
             "--key", "font",
@@ -120,7 +120,7 @@ Singleton {
         running: false
         property string monoFont: Config.options?.appearance?.typography?.monospaceFont ?? "JetBrainsMono Nerd Font"
         command: [
-            "/usr/bin/kwriteconfig6",
+            "kwriteconfig6",
             "--file", "kdeglobals",
             "--group", "General",
             "--key", "fixed",

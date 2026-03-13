@@ -26,7 +26,7 @@ Item {
             visible: active
             sourceComponent: CircleUtilButton {
                 Layout.alignment: Qt.AlignVCenter
-                onClicked: Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "region", "screenshot"])
+                onClicked: Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "region", "screenshot"])
                 MaterialSymbol {
                     horizontalAlignment: Qt.AlignHCenter
                     fill: 1
@@ -100,7 +100,7 @@ Item {
             visible: active
             sourceComponent: CircleUtilButton {
                 Layout.alignment: Qt.AlignVCenter
-                onClicked: Quickshell.execDetached(["/usr/bin/hyprpicker", "-a"])
+                onClicked: Quickshell.execDetached(["hyprpicker", "-a"])
                 MaterialSymbol {
                     horizontalAlignment: Qt.AlignHCenter
                     fill: 1
@@ -159,7 +159,7 @@ Item {
                 readonly property bool isMuted: Pipewire.defaultAudioSource?.audio?.muted ?? false
                 readonly property bool isInUse: (Privacy.micActive || (Audio?.micBeingAccessed ?? false))
 
-                onClicked: Quickshell.execDetached(["/usr/bin/wpctl", "set-mute", "@DEFAULT_SOURCE@", "toggle"])
+                onClicked: Quickshell.execDetached(["wpctl", "set-mute", "@DEFAULT_SOURCE@", "toggle"])
 
                 Item {
                     anchors.fill: parent

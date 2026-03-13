@@ -191,7 +191,7 @@ Singleton {
         onTriggered: {
             root._restartQueued = false
             console.log("[IconThemeService] Restarting shell now...")
-            Quickshell.execDetached(["/usr/bin/setsid", "/usr/bin/fish", "-c", "qs kill -c ii; sleep 0.3; qs -c ii"])
+            Quickshell.execDetached(["setsid", "fish", "-c", "qs kill -c ii; sleep 0.3; qs -c ii"])
         }
     }
 
@@ -206,7 +206,7 @@ Singleton {
         id: gsettingsSetProc
         property string themeName: ""
         property bool skipRestart: false
-        command: ["/usr/bin/gsettings", "set", "org.gnome.desktop.interface", "icon-theme", gsettingsSetProc.themeName]
+        command: ["gsettings", "set", "org.gnome.desktop.interface", "icon-theme", gsettingsSetProc.themeName]
         onExited: (exitCode, exitStatus) => {
             console.log("[IconThemeService] gsettings set exited:", exitCode, "theme:", gsettingsSetProc.themeName)
             // Sync to KDE/Qt apps via kdeglobals
@@ -223,7 +223,7 @@ Singleton {
         property string themeName: ""
         property bool skipRestart: false
         command: [
-            "/usr/bin/python3",
+            "python3",
             "-c",
             `
 import configparser
@@ -269,7 +269,7 @@ with open(config_path, "w") as f:
         property string themeName: ""
         property bool skipRestart: false
         command: [
-            "/usr/bin/kwriteconfig6",
+            "kwriteconfig6",
             "--file", "kdeglobals",
             "--group", "Icons",
             "--key", "Theme",
@@ -292,7 +292,7 @@ with open(config_path, "w") as f:
         id: qt5ctProc
         property string themeName: ""
         command: [
-            "/usr/bin/python3",
+            "python3",
             "-c",
             `
 import configparser
@@ -326,7 +326,7 @@ else:
         id: qt6ctProc
         property string themeName: ""
         command: [
-            "/usr/bin/python3",
+            "python3",
             "-c",
             `
 import configparser
@@ -357,7 +357,7 @@ else:
 
     Process {
         id: currentThemeProc
-        command: ["/usr/bin/gsettings", "get", "org.gnome.desktop.interface", "icon-theme"]
+        command: ["gsettings", "get", "org.gnome.desktop.interface", "icon-theme"]
         stdout: SplitParser {
             onRead: line => {
                 root.currentTheme = line.trim().replace(/'/g, "")
@@ -368,7 +368,7 @@ else:
     Process {
         id: listThemesProc
         command: [
-            "/usr/bin/find",
+            "find",
             "/usr/share/icons",
             `${FileUtils.trimFileProtocol(Directories.home)}/.local/share/icons`,
             "-maxdepth",

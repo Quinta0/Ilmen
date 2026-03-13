@@ -22,7 +22,7 @@ AndroidQuickToggleButton {
         interval: 300
         repeat: false 
         onTriggered: {
-            Quickshell.execDetached(["/usr/bin/hyprpicker", "-a"])
+            Quickshell.execDetached(["hyprpicker", "-a"])
         }
     }
 

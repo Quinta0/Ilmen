@@ -68,7 +68,7 @@ Item { // Wrapper
             execute: args => {
                 if (!/^(\d+)/.test(args.trim())) { // Invalid if doesn't start with numbers
                     Quickshell.execDetached([
-                        "/usr/bin/notify-send", 
+                        "notify-send", 
                         Translation.tr("Superpaste"), 
                         Translation.tr("Usage: <tt>%1superpaste NUM_OF_ENTRIES[i]</tt>\nSupply <tt>i</tt> when you want images\nExamples:\n<tt>%1superpaste 4i</tt> for the last 4 images\n<tt>%1superpaste 7</tt> for the last 7 entries").arg(root.prefixAction),
                         "-a", "Shell"
@@ -237,10 +237,10 @@ Item { // Wrapper
                 if (!cleanedCommand.length) return;
                 const term = Config.options?.apps?.terminal ?? "ghostty";
                 if (term.indexOf("ghostty") !== -1) {
-                    Quickshell.execDetached([term, "-e", "/usr/bin/sh", "-lc", cleanedCommand]);
+                    Quickshell.execDetached([term, "-e", "sh", "-lc", cleanedCommand]);
                 } else {
-                    const commandToRun = `${term} /usr/bin/bash -lc '${cleanedCommand}'`;
-                    Quickshell.execDetached(["/usr/bin/bash", "-c", commandToRun]);
+                    const commandToRun = `${term} bash -lc '${cleanedCommand}'`;
+                    Quickshell.execDetached(["bash", "-c", commandToRun]);
                 }
             }
         };
@@ -329,7 +329,7 @@ Item { // Wrapper
 
     Process {
         id: mathProcess
-        property list<string> baseCommand: ["/usr/bin/qalc", "-t"]
+        property list<string> baseCommand: ["qalc", "-t"]
         function calculateExpression(expression) {
             mathProcess.running = false;
             mathProcess.command = baseCommand.concat(expression);

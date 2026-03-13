@@ -97,7 +97,7 @@ Singleton {
             if (!root.isAutoTheme) return;
             if (!root.defaultApplyExternal) return;
             Quickshell.execDetached([
-                "/usr/bin/bash",
+                "bash",
                 Directories.scriptPath + "/colors/applycolor.sh"
             ])
         }

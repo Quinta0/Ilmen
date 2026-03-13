@@ -247,7 +247,7 @@ Singleton {
     Process {
         id: saveProcess
         command: [
-            "/usr/bin/bash",
+            "bash",
             "-c",
             "mkdir -p ~/.local/state/quickshell/user\n" +
             "echo " + (root._manualActive ? "1" : "0") + " > " + root._stateFile
@@ -288,7 +288,7 @@ Singleton {
     // Initial setup
     Component.onCompleted: {
         root._log("[GameMode] Service starting...")
-        Quickshell.execDetached(["/usr/bin/mkdir", "-p", Quickshell.env("HOME") + "/.local/state/quickshell/user"])
+        Quickshell.execDetached(["mkdir", "-p", Quickshell.env("HOME") + "/.local/state/quickshell/user"])
         initTimer.restart()
     }
 
@@ -314,9 +314,9 @@ Singleton {
             : "sed -i '/^animations {/,/^}/ s/^\\([ \\t]*\\)\\/\\/off$/\\1off/' \"" + niriConfigPath + "\"\n"
 
         niriAnimProcess.command = [
-            "/usr/bin/bash",
+            "bash",
             "-c",
-            sedExpr + "/usr/bin/niri msg action reload-config"
+            sedExpr + "niri msg action reload-config"
         ]
         niriAnimProcess.running = true
     }
@@ -399,7 +399,7 @@ Singleton {
     Process {
         id: discoverOverlayStopProc
         command: [
-            "/usr/bin/systemctl",
+            "systemctl",
             "--user",
             "stop",
             root._discoverOverlayServiceName
@@ -414,9 +414,9 @@ Singleton {
     Process {
         id: discoverOverlayKillProc
         command: [
-            "/usr/bin/pkill",
+            "pkill",
             "-f",
-            "/usr/bin/discover-overlay"
+            "discover-overlay"
         ]
         onExited: (code, status) => {
             root._log("[GameMode] pkill discover-overlay exited:", code)
@@ -426,7 +426,7 @@ Singleton {
     Process {
         id: discoverOverlayStartProc
         command: [
-            "/usr/bin/systemctl",
+            "systemctl",
             "--user",
             "start",
             root._discoverOverlayServiceName

@@ -47,7 +47,7 @@ Singleton {
 
     function _doStart() {
         if (!root.hasApiKey) {
-            Quickshell.execDetached(["/usr/bin/notify-send", Translation.tr("Voice Search"), Translation.tr("Gemini API key not set"), "-a", "Shell"])
+            Quickshell.execDetached(["notify-send", Translation.tr("Voice Search"), Translation.tr("Gemini API key not set"), "-a", "Shell"])
             return
         }
         root._audioPath = ""
@@ -78,7 +78,7 @@ Singleton {
     Process {
         id: recordProc
         running: false
-        command: ["/usr/bin/bash", `${Directories.scriptPath}/voiceSearch/record-voice.sh`, String(root.recordDuration)]
+        command: ["bash", `${Directories.scriptPath}/voiceSearch/record-voice.sh`, String(root.recordDuration)]
         stdout: StdioCollector {
             onStreamFinished: {
                 const path = this.text.trim()
@@ -86,7 +86,7 @@ Singleton {
                     root._audioPath = path
                     root._transcribe()
                 } else {
-                    Quickshell.execDetached(["/usr/bin/notify-send", Translation.tr("Voice Search"), Translation.tr("Recording failed"), "-a", "Shell"])
+                    Quickshell.execDetached(["notify-send", Translation.tr("Voice Search"), Translation.tr("Recording failed"), "-a", "Shell"])
                 }
             }
         }
@@ -95,7 +95,7 @@ Singleton {
     function _transcribe() {
         if (!root._audioPath || root._audioPath.length === 0) return
         if (!root.hasApiKey) {
-            Quickshell.execDetached(["/usr/bin/notify-send", Translation.tr("Voice Search"), Translation.tr("Gemini API key not set"), "-a", "Shell"])
+            Quickshell.execDetached(["notify-send", Translation.tr("Voice Search"), Translation.tr("Gemini API key not set"), "-a", "Shell"])
             return
         }
         transcribeProc.running = true
@@ -104,7 +104,7 @@ Singleton {
     Process {
         id: transcribeProc
         running: false
-        command: ["/usr/bin/bash", "-c", root._buildTranscribeCommand()]
+        command: ["bash", "-c", root._buildTranscribeCommand()]
         stdout: StdioCollector {
             onStreamFinished: {
                 root._handleTranscription(this.text)
@@ -112,7 +112,7 @@ Singleton {
         }
         onExited: (exitCode, exitStatus) => {
             if (exitCode !== 0) {
-                Quickshell.execDetached(["/usr/bin/notify-send", Translation.tr("Voice Search"), Translation.tr("Transcription failed"), "-a", "Shell"])
+                Quickshell.execDetached(["notify-send", Translation.tr("Voice Search"), Translation.tr("Transcription failed"), "-a", "Shell"])
             }
         }
     }
@@ -170,7 +170,7 @@ rm -f "$tmp_header" "$tmp_info" "$AUDIO_PATH" 2>/dev/null
     function _handleTranscription(text) {
         const transcription = text.trim()
         if (!transcription || transcription.length === 0) {
-            Quickshell.execDetached(["/usr/bin/notify-send", Translation.tr("Voice Search"), Translation.tr("No speech detected"), "-a", "Shell"])
+            Quickshell.execDetached(["notify-send", Translation.tr("Voice Search"), Translation.tr("No speech detected"), "-a", "Shell"])
             return
         }
         

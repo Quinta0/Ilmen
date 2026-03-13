@@ -34,7 +34,7 @@ Scope {
 
     function finish() {
         ShellExec.writeFileViaShell(root.firstRunFilePath, root.firstRunFileContent)
-        Quickshell.execDetached(["/usr/bin/notify-send", Translation.tr("Welcome to inir"), Translation.tr("Press Super+/ for all keyboard shortcuts."), "-a", "Shell"])
+        Quickshell.execDetached(["notify-send", Translation.tr("Welcome to inir"), Translation.tr("Press Super+/ for all keyboard shortcuts."), "-a", "Shell"])
         Qt.quit()
     }
 
@@ -628,7 +628,7 @@ Scope {
 
             Process {
                 id: wallpaperScanProc
-                command: ["/usr/bin/fish", "-c", `find '${wallpaperGroup.wallpapersPath}' -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.avif' \\) -printf '%C@\\t%p\\n'`]
+                command: ["fish", "-c", `find '${wallpaperGroup.wallpapersPath}' -maxdepth 1 -type f \\( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' -o -iname '*.avif' \\) -printf '%C@\\t%p\\n'`]
                 stdout: SplitParser {
                     splitMarker: ""
                     onRead: data => {
@@ -1084,7 +1084,7 @@ Scope {
                 buttonRadius: Appearance.rounding.small
                 colBackground: Appearance.colors.colLayer2
                 colBackgroundHover: Appearance.colors.colLayer2Hover
-                onClicked: Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "settings", "open"])
+                onClicked: Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "settings", "open"])
                 RowLayout {
                     anchors.centerIn: parent
                     spacing: 8

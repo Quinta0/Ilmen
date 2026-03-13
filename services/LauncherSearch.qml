@@ -79,7 +79,7 @@ Singleton {
             action: "superpaste",
             execute: args => {
                 if (!/^(\d+)/.test(args.trim())) {
-                    Quickshell.execDetached(["/usr/bin/notify-send", Translation.tr("Superpaste"), 
+                    Quickshell.execDetached(["notify-send", Translation.tr("Superpaste"), 
                         Translation.tr("Usage: >superpaste NUM[i]\nExamples: >superpaste 4i (last 4 images), >superpaste 7 (last 7 entries)"), 
                         "-a", "Shell"])
                     return
@@ -251,7 +251,7 @@ Singleton {
             execute: () => {
                 let cmd = q.replace("file://", "")
                 cmd = StringUtils.cleanPrefix(cmd, shellPrefix)
-                Quickshell.execDetached(["/usr/bin/bash", "-c", cmd])
+                Quickshell.execDetached(["bash", "-c", cmd])
             }
         })
 
@@ -311,8 +311,8 @@ Singleton {
                     if (!entry.runInTerminal) {
                         entry.execute()
                     } else {
-                        const terminal = Config.options?.apps?.terminal ?? "/usr/bin/kitty"
-                        Quickshell.execDetached(["/usr/bin/bash", "-c", `${terminal} -e '${entry.command?.join(" ") ?? ""}'`])
+                        const terminal = Config.options?.apps?.terminal ?? "kitty"
+                        Quickshell.execDetached(["bash", "-c", `${terminal} -e '${entry.command?.join(" ") ?? ""}'`])
                     }
                 }
             }))

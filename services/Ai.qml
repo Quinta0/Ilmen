@@ -516,7 +516,7 @@ Singleton {
     Process {
         id: getOllamaModels
         running: false
-        command: ["/usr/bin/bash", "-c", `${Directories.scriptPath}/ai/show-installed-ollama-models.sh`.replace(/file:\/\//, "")]
+        command: ["bash", "-c", `${Directories.scriptPath}/ai/show-installed-ollama-models.sh`.replace(/file:\/\//, "")]
         property string _stderr: ""
         stdout: SplitParser {
             onRead: data => {
@@ -575,7 +575,7 @@ Singleton {
     Process {
         id: getOpenRouterModels
         running: false
-        command: ["/usr/bin/curl", "-s", "https://openrouter.ai/api/v1/models"]
+        command: ["curl", "-s", "https://openrouter.ai/api/v1/models"]
         stdout: StdioCollector {
             onStreamFinished: {
                 try {
@@ -614,7 +614,7 @@ Singleton {
     Process {
         id: getDefaultPrompts
         running: false
-        command: ["/usr/bin/ls", "-1", Directories.defaultAiPrompts]
+        command: ["ls", "-1", Directories.defaultAiPrompts]
         stdout: StdioCollector {
             onStreamFinished: {
                 if (text.length === 0) return;
@@ -628,7 +628,7 @@ Singleton {
     Process {
         id: getUserPrompts
         running: false
-        command: ["/usr/bin/ls", "-1", Directories.userAiPrompts]
+        command: ["ls", "-1", Directories.userAiPrompts]
         stdout: StdioCollector {
             onStreamFinished: {
                 if (text.length === 0) return;
@@ -642,7 +642,7 @@ Singleton {
     Process {
         id: getSavedChats
         running: false
-        command: ["/usr/bin/ls", "-1", Directories.aiChats]
+        command: ["ls", "-1", Directories.aiChats]
         stdout: StdioCollector {
             onStreamFinished: {
                 if (text.length === 0) return;
@@ -838,7 +838,7 @@ Singleton {
 
     Process {
         id: requester
-        property list<string> baseCommand: ["/usr/bin/bash"]
+        property list<string> baseCommand: ["bash"]
         property AiMessageData message
         property ApiStrategy currentStrategy
 
@@ -916,7 +916,7 @@ Singleton {
             const authHeader = requester.currentStrategy.buildAuthorizationHeader(root.apiKeyEnvVarName);
             
             /* Script shebang */
-            const scriptShebang = "#!/usr/bin/env bash\n";
+            const scriptShebang = "#!env bash\n";
 
             /* Create extra setup when there's an attached file */
             let scriptFileSetupContent = ""
@@ -1059,7 +1059,7 @@ Singleton {
         property string shellCommand: ""
         property AiMessageData message
         property string baseMessageContent: ""
-        command: ["/usr/bin/bash", "-c", shellCommand]
+        command: ["bash", "-c", shellCommand]
         stdout: SplitParser {
             onRead: (output) => {
                 commandExecutionProc.message.functionResponse += output + "\n\n";

@@ -116,7 +116,7 @@ Item {
 
     Process {
         id: artExistsChecker
-        command: ["/usr/bin/test", "-f", root.artFilePath]
+        command: ["test", "-f", root.artFilePath]
         onExited: (exitCode, exitStatus) => {
             if (exitCode === 0) {
                 root.downloaded = true
@@ -134,7 +134,7 @@ Item {
         id: coverArtDownloader
         property string targetFile
         property string artFilePath
-        command: ["/usr/bin/bash", "-c", `
+        command: ["bash", "-c", `
             target="$1"
             out="$2"
             dir="$3"
@@ -142,8 +142,8 @@ Item {
             if [ -f "$out" ]; then exit 0; fi
             mkdir -p "$dir"
             tmp="$out.tmp"
-            /usr/bin/curl -sSL --connect-timeout 10 --max-time 30 "$target" -o "$tmp" && \
-            [ -s "$tmp" ] && /usr/bin/mv -f "$tmp" "$out" || { rm -f "$tmp"; exit 1; }
+            curl -sSL --connect-timeout 10 --max-time 30 "$target" -o "$tmp" && \
+            [ -s "$tmp" ] && mv -f "$tmp" "$out" || { rm -f "$tmp"; exit 1; }
         `, 
         "_", 
         targetFile, 

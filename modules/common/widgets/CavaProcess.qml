@@ -40,7 +40,7 @@ Item {
     Process {
         id: configGen
         running: false
-        command: ["/usr/bin/bash", root.scriptPath, root.configPath]
+        command: ["bash", root.scriptPath, root.configPath]
         onExited: (code, status) => {
             if (code === 0 && root.active) {
                 if (!cavaProc.running) {

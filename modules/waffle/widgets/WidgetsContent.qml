@@ -89,7 +89,7 @@ WBarAttachedPanelContent {
                             implicitSize: 16
                         }
                         onClicked: {
-                            Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "settings", "open"])
+                            Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "settings", "open"])
                             GlobalStates.waffleWidgetsOpen = false
                         }
                     }
@@ -590,7 +590,7 @@ WBarAttachedPanelContent {
                             iconName: "folder"
                             label: Translation.tr("Files")
                             onClicked: {
-                                Quickshell.execDetached(["/usr/bin/nautilus"])
+                                Quickshell.execDetached(["nautilus"])
                                 GlobalStates.waffleWidgetsOpen = false
                             }
                         }
@@ -610,7 +610,7 @@ WBarAttachedPanelContent {
                             iconName: "settings"
                             label: Translation.tr("Settings")
                             onClicked: {
-                                Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "settings", "open"])
+                                Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "settings", "open"])
                                 GlobalStates.waffleWidgetsOpen = false
                             }
                         }

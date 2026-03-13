@@ -290,7 +290,7 @@ Variants {
         Process {
             id: getWallpaperSizeProc
             property string path: bgRoot.wallpaperPath
-            command: ["/usr/bin/magick", "identify", "-format", "%w %h", path]
+            command: ["magick", "identify", "-format", "%w %h", path]
             stdout: StdioCollector {
                 id: wallpaperSizeOutputCollector
                 onStreamFinished: {
@@ -656,7 +656,7 @@ Variants {
                 closeOnHoverLost: true
                 model: [
                     { text: Translation.tr("Settings"), iconName: "settings", monochromeIcon: true,
-                        action: () => { Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "settings", "open"]) } },
+                        action: () => { Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "settings", "open"]) } },
                     { type: "separator" },
                     { text: Translation.tr("Change wallpaper"), iconName: "image", monochromeIcon: true,
                         action: () => { GlobalStates.wallpaperSelectorOpen = true } },

@@ -272,14 +272,14 @@ Singleton {
         if (applyProc.running)
             applyProc.running = false
         lastError = ""
-        applyProc.command = ["/usr/bin/bash", "-lc", lines.join("\n")]
+        applyProc.command = ["bash", "-lc", lines.join("\n")]
         applyProc._pendingSignature = signature
         applyProc.running = true
     }
 
     Process {
         id: probeProc
-        command: ["/usr/bin/bash", "-lc", "if command -v awww >/dev/null 2>&1; then echo client; fi; if command -v awww-daemon >/dev/null 2>&1; then echo daemon; fi"]
+        command: ["bash", "-lc", "if command -v awww >/dev/null 2>&1; then echo client; fi; if command -v awww-daemon >/dev/null 2>&1; then echo daemon; fi"]
         stdout: StdioCollector {
             id: probeStdout
         }
@@ -317,7 +317,7 @@ Singleton {
 
     Process {
         id: stopProc
-        command: ["/usr/bin/bash", "-lc", "command -v awww >/dev/null 2>&1 && awww kill >/dev/null 2>&1 || true"]
+        command: ["bash", "-lc", "command -v awww >/dev/null 2>&1 && awww kill >/dev/null 2>&1 || true"]
         onExited: {
             root.lastSyncSignature = ""
             root.lastError = ""

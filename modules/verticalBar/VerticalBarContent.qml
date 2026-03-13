@@ -62,7 +62,7 @@ Item { // Bar content region
                 monochromeIcon: true,
                 text: Translation.tr("Settings"),
                 action: () => {
-                    Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "settings", "open"])
+                    Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "settings", "open"])
                 },
             },
         ]
@@ -203,9 +203,7 @@ Item { // Bar content region
         onScrollUp: root.brightnessMonitor.setBrightness(root.brightnessMonitor.brightness + 0.05)
         onMovedAway: GlobalStates.osdBrightnessOpen = false
         onPressed: event => {
-            if (event.button === Qt.LeftButton)
-                GlobalStates.sidebarLeftOpen = !GlobalStates.sidebarLeftOpen;
-            else if (event.button === Qt.RightButton)
+            if (event.button === Qt.RightButton)
                 root.openBarContextMenu(event.x, event.y, barTopSectionMouseArea)
         }
 
@@ -213,12 +211,6 @@ Item { // Bar content region
             id: topSectionColumnLayout
             anchors.fill: parent
             spacing: 10
-
-            Bar.LeftSidebarButton { // Left sidebar button
-                Layout.alignment: Qt.AlignHCenter
-                Layout.topMargin: (Appearance.sizes.baseVerticalBarWidth - implicitWidth) / 2 + Appearance.sizes.hyprlandGapsOut
-                colBackground: barTopSectionMouseArea.hovered ? Appearance.colors.colLayer1Hover : ColorUtils.transparentize(Appearance.colors.colLayer1Hover, 1)
-            }
 
             Item {
                 Layout.fillHeight: true

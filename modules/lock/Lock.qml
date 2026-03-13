@@ -38,7 +38,7 @@ Scope {
             environment: ({
                 "UNLOCK_PASSWORD": lockContext.currentText
             }),
-            command: ["/usr/bin/bash", Quickshell.shellPath("scripts/keyring/unlock.sh")]
+            command: ["bash", Quickshell.shellPath("scripts/keyring/unlock.sh")]
         })
     }
 
@@ -51,7 +51,7 @@ Scope {
         GlobalStates.screenLocked = false
         // Try swaylock first (works on both Niri and Hyprland), then hyprlock
         // Using shell to check existence and run
-        Quickshell.execDetached(["/usr/bin/bash", "-c", 
+        Quickshell.execDetached(["bash", "-c", 
             "command -v swaylock && exec swaylock -f -c 1a1a2e || " +
             "command -v hyprlock && exec hyprlock || " +
             "notify-send -u critical 'Lock Failed' 'Install swaylock or hyprlock as fallback'"
@@ -60,7 +60,7 @@ Scope {
     
     function saveWindowPositionAndTile() {
         if (!CompositorService.isHyprland) return;
-        Quickshell.execDetached(["/usr/bin/hyprctl", "keyword", "dwindle:pseudotile", "true"])
+        Quickshell.execDetached(["hyprctl", "keyword", "dwindle:pseudotile", "true"])
         root.windowData = HyprlandData.windowList.filter(w => (w.floating && w.workspace.id === HyprlandData.activeWorkspace.id))
         root.windowData.forEach(w => {
 			Hyprland.dispatch(`pseudo address:${w.address}`)
@@ -75,7 +75,7 @@ Scope {
             Hyprland.dispatch(`movewindowpixel exact ${w.at[0]} ${w.at[1]}, address:${w.address}`)
 			Hyprland.dispatch(`pseudo address:${w.address}`)
         })
-		Quickshell.execDetached(["/usr/bin/hyprctl", "keyword", "dwindle:pseudotile", "false"])
+		Quickshell.execDetached(["hyprctl", "keyword", "dwindle:pseudotile", "false"])
     }
 
     // This stores all the information shared between the lock surfaces on each screen.
@@ -113,7 +113,7 @@ Scope {
             
             // Refocus last focused window on unlock (hack)
             if (CompositorService.isHyprland) {
-                Quickshell.execDetached(["/usr/bin/bash", "-lc", "/usr/bin/sleep 0.2; /usr/bin/hyprctl --batch 'dispatch togglespecialworkspace; dispatch togglespecialworkspace'"])
+                Quickshell.execDetached(["bash", "-lc", "sleep 0.2; hyprctl --batch 'dispatch togglespecialworkspace; dispatch togglespecialworkspace'"])
             }
 
             // Reset
@@ -300,7 +300,7 @@ Scope {
 
                 onPressed: {
                     if (Config.options?.lock?.useHyprlock ?? false) {
-                        Quickshell.execDetached(["/usr/bin/bash", "-lc", "/usr/bin/pidof hyprlock || /usr/bin/hyprlock"]);
+                        Quickshell.execDetached(["bash", "-lc", "pidof hyprlock || hyprlock"]);
                         return;
                     }
                     if (!GlobalStates.screenLocked && !root._lockActivating)

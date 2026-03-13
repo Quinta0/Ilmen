@@ -1774,7 +1774,7 @@ ApplicationWindow {
                     buttonRadius: Appearance.rounding.full
                     implicitWidth: 35
                     implicitHeight: 35
-                    onClicked: Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "lock", "activate"])
+                    onClicked: Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "lock", "activate"])
                     contentItem: MaterialSymbol {
                         anchors.centerIn: parent
                         horizontalAlignment: Text.AlignHCenter

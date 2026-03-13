@@ -52,7 +52,7 @@ Singleton {
                 console.log("[Persistent] File not found, creating new file.")
                 // Ensure parent directory exists
                 const parentDir = root.filePath.substring(0, root.filePath.lastIndexOf('/'))
-                Process.exec(["/usr/bin/mkdir", "-p", parentDir])
+                Process.exec(["mkdir", "-p", parentDir])
                 fileWriteTimer.restart();
             }
         }

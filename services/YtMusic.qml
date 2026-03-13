@@ -820,7 +820,7 @@ print("")
     Process {
         id: _quickConnectCheckProc
         property string stdOutput: ""
-        command: ["/usr/bin/yt-dlp",
+        command: ["yt-dlp",
             "--cookies-from-browser", root._browserArgForYtdlp,
             "--flat-playlist",
             "--no-warnings",
@@ -859,7 +859,7 @@ print("")
     
     Process {
         id: _fetchProfileProc
-        command: ["/usr/bin/yt-dlp",
+        command: ["yt-dlp",
             ...root._cookieArgs,
             "--flat-playlist",
             "--playlist-end", "1",
@@ -881,7 +881,7 @@ print("")
     
     Process {
         id: _fetchAvatarProc
-        command: ["/usr/bin/yt-dlp",
+        command: ["yt-dlp",
             ...root._cookieArgs,
             "--dump-json",
             root.userChannelUrl
@@ -932,7 +932,7 @@ print("")
 
     Process {
         id: _fetchLikedProc
-        command: ["/usr/bin/yt-dlp",
+        command: ["yt-dlp",
             ...root._cookieArgs,
             "--flat-playlist",
             "-j",
@@ -978,7 +978,7 @@ print("")
     
     Process {
         id: _fetchLikedFallbackProc
-        command: ["/usr/bin/yt-dlp",
+        command: ["yt-dlp",
             ...root._cookieArgs,
             "--flat-playlist",
             "-j",
@@ -1185,7 +1185,7 @@ print("")
 
     Process {
         id: _detectDefaultBrowserProc
-        command: ["/usr/bin/xdg-settings", "get", "default-web-browser"]
+        command: ["xdg-settings", "get", "default-web-browser"]
         stdout: SplitParser {
             onRead: line => {
                 const desktop = line.trim().toLowerCase()
@@ -1209,7 +1209,7 @@ print("")
 
     Process {
         id: _detectBrowsersProc
-        command: ["/bin/bash", "-c", `
+        command: ["bash", "-c", `
             for path in ~/.mozilla/firefox ~/.config/google-chrome ~/.config/chromium ~/.config/BraveSoftware ~/.config/vivaldi ~/.config/opera ~/.config/microsoft-edge ~/.zen ~/.librewolf ~/.floorp ~/.waterfox; do
                 [ -d "$path" ] && echo "$path"
             done
@@ -1356,7 +1356,7 @@ print("")
     Process {
         id: _checkAvailability
         // Need yt-dlp, mpv and socat (for IPC fallback when MPRIS is absent)
-        command: ["/bin/bash", "-c", "missing=''; command -v yt-dlp >/dev/null || missing=\"$missing yt-dlp\"; command -v mpv >/dev/null || missing=\"$missing mpv\"; command -v socat >/dev/null || missing=\"$missing socat\"; [ -z \"$missing\" ] && exit 0 || { echo \"$missing\"; exit 1; }"]
+        command: ["bash", "-c", "missing=''; command -v yt-dlp >/dev/null || missing=\"$missing yt-dlp\"; command -v mpv >/dev/null || missing=\"$missing mpv\"; command -v socat >/dev/null || missing=\"$missing socat\"; [ -z \"$missing\" ] && exit 0 || { echo \"$missing\"; exit 1; }"]
         stdout: SplitParser {
             onRead: line => {
                 if (line.trim()) {
@@ -1392,7 +1392,7 @@ print("")
         id: _googleCheckProc
         property string errorOutput: ""
         property string stdOutput: ""
-        command: ["/usr/bin/yt-dlp",
+        command: ["yt-dlp",
             ...root._cookieArgs,
             "--flat-playlist",
             "--no-warnings",
@@ -1468,7 +1468,7 @@ print("")
 
     Process {
         id: _searchProc
-        command: ["/usr/bin/yt-dlp",
+        command: ["yt-dlp",
             ...(root.googleConnected ? root._cookieArgs : []),
             "--flat-playlist",
             "--no-warnings",
@@ -1522,13 +1522,13 @@ print("")
 
     Process {
         id: _stopProc
-        command: ["/bin/bash", "-c", "pkill -f qs-ytmusic-mpv; rm -f " + root.ipcSocket]
+        command: ["bash", "-c", "pkill -f qs-ytmusic-mpv; rm -f " + root.ipcSocket]
     }
 
     Process {
         id: _playProc
         property string _stderr: ""
-        command: ["/usr/bin/mpv",
+        command: ["mpv",
             "--no-video",
             "--force-window=no",
             "--audio-display=no",
@@ -1580,7 +1580,7 @@ print("")
     Process {
         id: _ytPlaylistsProc
         property var results: []
-        command: ["/usr/bin/yt-dlp",
+        command: ["yt-dlp",
             ...root._cookieArgs,
             "--flat-playlist",
             "--no-warnings",
@@ -1615,7 +1615,7 @@ print("")
     Process {
         id: _importPlaylistProc
         property var items: []
-        command: ["/usr/bin/yt-dlp",
+        command: ["yt-dlp",
             ...root._cookieArgs,
             "--flat-playlist",
             "--no-warnings",

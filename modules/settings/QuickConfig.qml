@@ -22,7 +22,7 @@ ContentPage {
         id: randomWallProc
         property string status: ""
         property string scriptPath: `${Directories.scriptPath}/colors/random/random_konachan_wall.sh`
-        command: ["/usr/bin/bash", "-c", FileUtils.trimFileProtocol(randomWallProc.scriptPath)]
+        command: ["bash", "-c", FileUtils.trimFileProtocol(randomWallProc.scriptPath)]
         stdout: SplitParser {
             onRead: data => {
                 randomWallProc.status = data.trim();
@@ -39,7 +39,7 @@ ContentPage {
         toggled: Appearance.m3colors.darkmode === dark
         colBackground: Appearance.colors.colLayer2
         onClicked: {
-            Quickshell.execDetached(["/usr/bin/bash", "-c", `${Directories.wallpaperSwitchScriptPath} --mode ${dark ? "dark" : "light"} --noswitch`]);
+            Quickshell.execDetached(["bash", "-c", `${Directories.wallpaperSwitchScriptPath} --mode ${dark ? "dark" : "light"} --noswitch`]);
         }
         contentItem: Item {
             anchors.centerIn: parent
@@ -185,7 +185,7 @@ ContentPage {
                 currentValue: Config.options.appearance.palette.type
                 onSelected: newValue => {
                     Config.options.appearance.palette.type = newValue;
-                    Quickshell.execDetached(["/usr/bin/bash", "-c", `${Directories.wallpaperSwitchScriptPath} --noswitch --type ${newValue}`]);
+                    Quickshell.execDetached(["bash", "-c", `${Directories.wallpaperSwitchScriptPath} --noswitch --type ${newValue}`]);
                 }
                 options: [
                     {
@@ -277,7 +277,7 @@ ContentPage {
                                 if (Config.options?.background?.multiMonitor?.enable && multiMonitorPanel.selectedMonitor) {
                                     Config.setNestedValue("wallpaperSelector.targetMonitor", multiMonitorPanel.selectedMonitor)
                                 }
-                                Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"]);
+                                Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"]);
                             }
                         }
                     }
@@ -1198,7 +1198,7 @@ ContentPage {
                                         if (mon) {
                                             Config.setNestedValue("wallpaperSelector.selectionTarget", "main")
                                             Config.setNestedValue("wallpaperSelector.targetMonitor", mon)
-                                            Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"])
+                                            Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"])
                                         }
                                     }
                                 }
@@ -1268,7 +1268,7 @@ ContentPage {
                                     visible: multiMonitorPanel.backdropEnabled
                                     onClicked: {
                                         Config.setNestedValue("wallpaperSelector.selectionTarget", "backdrop")
-                                        Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"])
+                                        Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "wallpaperSelector", "toggle"])
                                     }
                                     StyledToolTip {
                                         text: Translation.tr("Change the backdrop wallpaper (used for overview/blur)")
@@ -1532,7 +1532,7 @@ ContentPage {
                     buttonRadius: Appearance.rounding.small
                     materialIcon: "refresh"
                     mainText: Translation.tr("Reload shell")
-                    onClicked: Quickshell.execDetached(["/usr/bin/setsid", "/usr/bin/fish", "-c", "qs kill -c ii; sleep 0.3; qs -c ii"])
+                    onClicked: Quickshell.execDetached(["setsid", "fish", "-c", "qs kill -c ii; sleep 0.3; qs -c ii"])
                 }
 
                 RippleButtonWithIcon {
@@ -1548,7 +1548,7 @@ ContentPage {
                     buttonRadius: Appearance.rounding.small
                     materialIcon: "keyboard"
                     mainText: Translation.tr("Shortcuts")
-                    onClicked: Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "cheatsheet", "toggle"])
+                    onClicked: Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "cheatsheet", "toggle"])
                 }
             }
 

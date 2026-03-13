@@ -3004,7 +3004,7 @@ Singleton {
             generateColorsJson(c);
             Qt.callLater(() => {
                 Quickshell.execDetached([
-                    "/usr/bin/python3",
+                    "python3",
                     Directories.scriptPath + "/colors/system24_palette.py"
                 ]);
             });
@@ -3044,7 +3044,7 @@ Singleton {
         // Run applycolor.sh to apply terminal colors
         Qt.callLater(() => {
             Quickshell.execDetached([
-                "/usr/bin/bash",
+                "bash",
                 Directories.scriptPath + "/colors/applycolor.sh"
             ]);
         });

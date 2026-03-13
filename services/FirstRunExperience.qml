@@ -20,7 +20,7 @@ Singleton {
     }
 
     function enableNextTime() {
-        Quickshell.execDetached(["/usr/bin/rm", "-f", root.firstRunFilePath])
+        Quickshell.execDetached(["rm", "-f", root.firstRunFilePath])
     }
     function disableNextTime() {
         Quickshell.execDetached(["/bin/sh", "-c", `echo "${root.firstRunFileContent}" > "${root.firstRunFilePath}"`])
@@ -28,7 +28,7 @@ Singleton {
 
     function handleFirstRun(): void {
         Quickshell.execDetached([Directories.wallpaperSwitchScriptPath, root.defaultWallpaperPath])
-        Quickshell.execDetached(["/usr/bin/qs", "-p", root.welcomeQmlPath])
+        Quickshell.execDetached(["qs", "-p", root.welcomeQmlPath])
     }
 
     Process {
@@ -54,7 +54,7 @@ Singleton {
 
     Process {
         id: checkFirstRunProc
-        command: ["/usr/bin/test", "-f", root.firstRunFilePath]
+        command: ["test", "-f", root.firstRunFilePath]
         onExited: (exitCode) => {
             if (exitCode !== 0) {
                 // File doesn't exist, create it and run setup

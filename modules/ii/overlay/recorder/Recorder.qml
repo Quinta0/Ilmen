@@ -72,7 +72,7 @@ StyledOverlayWidget {
                     name: Translation.tr("Screenshot region")
                     onClicked: {
                         GlobalStates.overlayOpen = false;
-                        Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "region", "screenshot"]);
+                        Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "region", "screenshot"]);
                     }
                 }
 
@@ -81,7 +81,7 @@ StyledOverlayWidget {
                     name: Translation.tr("Screenshot")
                     onClicked: {
                         GlobalStates.overlayOpen = false;
-                        Quickshell.execDetached(["/usr/bin/bash", "-c", "/usr/bin/grim - | /usr/bin/wl-copy"]);
+                        Quickshell.execDetached(["bash", "-c", "grim - | wl-copy"]);
                     }
                 }
 
@@ -95,7 +95,7 @@ StyledOverlayWidget {
                             Quickshell.execDetached([Directories.recordScriptPath]);
                         } else {
                             GlobalStates.overlayOpen = false;
-                            Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "region", "recordWithSound"]);
+                            Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "region", "recordWithSound"]);
                         }
                     }
                     property bool isFullscreenRecording: false

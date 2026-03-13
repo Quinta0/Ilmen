@@ -470,7 +470,7 @@ Item {
                     if (CompositorService.isHyprland) {
                         Hyprland.dispatch("reload");
                     } else if (CompositorService.isNiri) {
-                        Quickshell.execDetached(["/usr/bin/niri", "msg", "action", "load-config-file"]);
+                        Quickshell.execDetached(["niri", "msg", "action", "load-config-file"]);
                     }
                     Quickshell.reload(true);
                 }
@@ -524,7 +524,7 @@ Item {
                     console.log("[SidebarRight] Opening new settings window via IPC");
                     GlobalStates.sidebarRightOpen = false;
                     Qt.callLater(() => {
-                        Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "settings", "open"]);
+                        Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "settings", "open"]);
                     })
                 }
                 StyledToolTip {

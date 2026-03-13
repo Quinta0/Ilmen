@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Apply Qt/KDE theme colors from matugen's colors.json
 # GTK CSS is handled by matugen templates — this script only generates:
 #   - kdeglobals (KDE/Qt app colors for Dolphin, etc.)
@@ -650,7 +650,7 @@ mkdir -p "$(dirname "$QT6CT_CONF")"
 CURRENT_ICON_THEME=$(grep '^icon_theme=' "$QT6CT_CONF" 2>/dev/null | cut -d= -f2)
 [[ -z "$CURRENT_ICON_THEME" ]] && CURRENT_ICON_THEME="Adwaita"
 CURRENT_QT_STYLE=$(grep '^style=' "$QT6CT_CONF" 2>/dev/null | cut -d= -f2)
-[[ -z "$CURRENT_QT_STYLE" ]] && CURRENT_QT_STYLE="Darkly"
+[[ -z "$CURRENT_QT_STYLE" ]] && CURRENT_QT_STYLE="kvantum"
 cat > "$QT6CT_CONF" << EOF
 [Appearance]
 color_scheme_path=${DARKLY_COLORS}

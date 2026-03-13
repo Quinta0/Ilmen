@@ -57,7 +57,7 @@ Item { // Bar content region
                 monochromeIcon: true,
                 text: Translation.tr("Settings"),
                 action: () => {
-                    Quickshell.execDetached(["/usr/bin/qs", "-c", "ii", "ipc", "call", "settings", "open"])
+                    Quickshell.execDetached(["qs", "-c", "ii", "ipc", "call", "settings", "open"])
                 },
             },
         ]

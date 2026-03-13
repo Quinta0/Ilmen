@@ -975,7 +975,7 @@ ContentPage {
                 Process {
                     id: terminalDetector
                     command: [
-                        "/usr/bin/bash",
+                        "bash",
                         "-c",
                         "for term in kitty alacritty foot wezterm ghostty konsole starship btop lazygit yazi; do " +
                         "if command -v $term &>/dev/null; then echo \"$term:true\"; " +
@@ -1220,7 +1220,7 @@ ContentPage {
 
                 Process {
                     id: applyTerminalColorsProcess
-                    command: ["/usr/bin/bash", Directories.scriptPath + "/colors/applycolor.sh"]
+                    command: ["bash", Directories.scriptPath + "/colors/applycolor.sh"]
                 }
             }
         }

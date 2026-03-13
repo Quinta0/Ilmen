@@ -163,8 +163,8 @@ RippleButton {
         if (id === "com.github.th_ch.youtube_music") id = "pear-desktop";
         if (id === "spotify" || id === "spotify-launcher") id = "spotify-launcher";
         if (id && id !== "" && id !== "SEPARATOR") {
-            const cmd = "/usr/bin/gtk-launch \"" + id + "\" || \"" + id + "\" &";
-            Quickshell.execDetached(["/usr/bin/bash", "-lc", cmd]);
+            const cmd = "gtk-launch \"" + id + "\" || \"" + id + "\" &";
+            Quickshell.execDetached(["bash", "-lc", cmd]);
             return true;
         }
         return false;

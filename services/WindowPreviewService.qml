@@ -66,7 +66,7 @@ Singleton {
         onExited: {
             // Cleanup temp file
             if (root._savedClipFile.length > 0) {
-                Quickshell.execDetached(["/usr/bin/rm", "-f", root._savedClipFile])
+                Quickshell.execDetached(["rm", "-f", root._savedClipFile])
                 root._savedClipFile = ""
                 root._savedClipMime = ""
             }
@@ -77,11 +77,11 @@ Singleton {
         const tmpFile = "/tmp/inir-clipboard-qml-" + Date.now() + ".tmp"
         root._savedClipFile = tmpFile
         // Detect MIME and save in one shot
-        clipboardSaveProcess.command = ["/usr/bin/bash", "-c",
-            `mime=$(/usr/bin/wl-paste -l 2>/dev/null | head -1); ` +
+        clipboardSaveProcess.command = ["bash", "-c",
+            `mime=$(wl-paste -l 2>/dev/null | head -1); ` +
             `[ -z "$mime" ] && exit 1; ` +
             `echo "$mime" > '${tmpFile}.mime'; ` +
-            `/usr/bin/wl-paste --type "$mime" > '${tmpFile}' 2>/dev/null`
+            `wl-paste --type "$mime" > '${tmpFile}' 2>/dev/null`
         ]
         clipboardSaveProcess.running = true
     }
@@ -89,10 +89,10 @@ Singleton {
     function _restoreClipboard(): void {
         if (root._savedClipFile.length === 0) return
         const tmpFile = root._savedClipFile
-        clipboardRestoreProcess.command = ["/usr/bin/bash", "-c",
+        clipboardRestoreProcess.command = ["bash", "-c",
             `[ -f '${tmpFile}.mime' ] && [ -f '${tmpFile}' ] || exit 1; ` +
             `mime=$(cat '${tmpFile}.mime'); ` +
-            `/usr/bin/wl-copy --type "$mime" < '${tmpFile}' 2>/dev/null; ` +
+            `wl-copy --type "$mime" < '${tmpFile}' 2>/dev/null; ` +
             `rm -f '${tmpFile}' '${tmpFile}.mime' 2>/dev/null`
         ]
         clipboardRestoreProcess.running = true
@@ -113,13 +113,13 @@ Singleton {
     
     Process {
         id: ensureDirProcess
-        command: ["/usr/bin/mkdir", "-p", root.previewDir]
+        command: ["mkdir", "-p", root.previewDir]
         onExited: scanProcess.running = true
     }
     
     Process {
         id: scanProcess
-        command: ["/usr/bin/ls", "-1", root.previewDir]
+        command: ["ls", "-1", root.previewDir]
         stdout: SplitParser {
             onRead: data => {
                 const filename = data.trim()
@@ -158,7 +158,7 @@ Singleton {
             previewCache = Object.assign({}, previewCache)
             
             // Delete files
-            const cmd = ["/usr/bin/rm", "-f"]
+            const cmd = ["rm", "-f"]
             for (const id of toDelete) {
                 cmd.push(root.previewDir + "/window-" + id + ".png")
             }
@@ -219,8 +219,8 @@ Singleton {
         
         // Build command with IDs
         const cmd = ShellExec.supportsFish()
-            ? ["/usr/bin/fish", Quickshell.shellPath("scripts/capture-windows.fish")]
-            : ["/usr/bin/bash", Quickshell.shellPath("scripts/capture-windows.sh")]
+            ? ["fish", Quickshell.shellPath("scripts/capture-windows.fish")]
+            : ["bash", Quickshell.shellPath("scripts/capture-windows.sh")]
         for (const id of idsToCapture) {
             cmd.push(id.toString())
         }
@@ -247,8 +247,8 @@ Singleton {
         const ids = windows.map(w => w.id)
         captureProcess.idsToCapture = ids
         captureProcess.command = ShellExec.supportsFish()
-            ? ["/usr/bin/fish", Quickshell.shellPath("scripts/capture-windows.fish"), "--all"]
-            : ["/usr/bin/bash", Quickshell.shellPath("scripts/capture-windows.sh"), "--all"]
+            ? ["fish", Quickshell.shellPath("scripts/capture-windows.fish"), "--all"]
+            : ["bash", Quickshell.shellPath("scripts/capture-windows.sh"), "--all"]
         captureProcess.running = true
     }
     
@@ -329,7 +329,7 @@ Singleton {
     }
     
     function clearPreviews(): void {
-        Quickshell.execDetached(["/usr/bin/rm", "-rf", previewDir])
+        Quickshell.execDetached(["rm", "-rf", previewDir])
         previewCache = {}
     }
 }

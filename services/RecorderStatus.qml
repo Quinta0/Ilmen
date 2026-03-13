@@ -30,7 +30,7 @@ Singleton {
 
     Process {
         id: checkProcess
-        command: ["/usr/bin/pgrep", "-x", "wf-recorder"]
+        command: ["pgrep", "-x", "wf-recorder"]
         onExited: (exitCode, exitStatus) => {
             // pgrep returns 0 if process found, 1 if not found
             root.isRecording = (exitCode === 0)

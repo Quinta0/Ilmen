@@ -82,7 +82,7 @@ Singleton {
 	Process {
 		id: plasmaIntegrationCheckProc
 		running: false
-		command: ["/usr/bin/bash", "-c", "command -v plasma-browser-integration-host"]
+		command: ["bash", "-c", "command -v plasma-browser-integration-host"]
 		onExited: (exitCode) => { root.hasPlasmaIntegration = (exitCode === 0); }
 	}
 
