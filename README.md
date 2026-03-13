@@ -1,5 +1,8 @@
 # Ilmen (NixOS Edition)
 
+<img width="1920" height="1196" alt="image" src="https://github.com/user-attachments/assets/d9544786-e823-4990-835f-e11b103c457d" />
+
+
 A beautifully adapted Wayland desktop UI for **NixOS**, originally predicated on **Quickshell** and **Niri**. 
 This repository contains a full Declarative system configuration and a clean, responsive desktop shell tailored precisely for NixOS users.
 
