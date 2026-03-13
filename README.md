@@ -14,7 +14,7 @@ This repository contains a full Declarative system configuration and a clean, re
 
 ## 🚀 Installation 
 
-Make sure you're on a fresh or configurable NixOS machine. We provide a 1-step installation script that:
+Make sure you're on a fresh or configurable NixOS machine. A 1-step installation script is provided that:
 1. Replaces your `/etc/nixos/configuration.nix` with the curated Ilmen config.
 2. Runs a `nixos-rebuild switch`.
 3. Copies all necessary Quickshell module/component files directly to your user folder (`~/.config/quickshell/ii`).
