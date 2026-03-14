@@ -111,8 +111,6 @@ in
     wget
     networkmanagerapplet
     niri
-    kdePackages.qwt
-    
     # Core dependencies for iNiR/Quickshell
     bc coreutils cliphist curl ripgrep jq python311 python311Packages.pillow python311Packages.evdev 
     xdg-user-dirs xdg-utils rsync wl-clipboard libnotify wlsunset 
@@ -142,7 +140,12 @@ in
     qt6.qtmultimedia qt6.qtpositioning qt6.qtquicktimeline qt6.qtsensors qt6.qttools 
     qt6.qttranslations qt6.qtvirtualkeyboard
     kdePackages.kirigami kdePackages.kdialog kdePackages.breeze-icons kdePackages.plasma-integration
-    # kdePackages.knewstuff kdePackages.kdeclarative kdePackages.kconfig
+    kdePackages.kdeclarative kdePackages.kconfig
+    kdePackages.qwt
+    kdePackages.qt6ct
+    kdePackages.knewstuff
+    kdePackages.kwidgetsaddons
+    kdePackages.ksvg 
   ];
 
   # Fonts
