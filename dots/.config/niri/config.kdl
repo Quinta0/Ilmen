@@ -17,12 +17,12 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 // Run `niri msg outputs` inside a niri session to see connector names and modes.
 // Then edit and uncomment this block to pin a specific monitor layout.
 
-// -output "eDP-1" {
-    // mode "1920x1080@60"
-    // scale 1
-    // transform "normal"
-    // position x=0 y=0
-// }
+output "eDP-1" {
+    mode "1920x1200@60"
+    scale 1.15
+    transform "normal"
+    position x=0 y=0
+}
 
 // ============================================================================
 // INPUT
@@ -31,7 +31,7 @@ screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
 input {
     keyboard {
         xkb {
-            layout "us"
+            layout "ch"
         }
         repeat-delay 250
         repeat-rate 50
@@ -39,6 +39,7 @@ input {
     touchpad {
         tap
         tap-button-map "left-right-middle"
+        natural-scroll
     }
     mouse {
         accel-profile "flat"
@@ -53,7 +54,7 @@ input {
 // ============================================================================
 
 layout {
-    gaps 25
+    gaps 8
     background-color "transparent"
     center-focused-column "never"
     
@@ -128,7 +129,7 @@ window-rule {
 
 window-rule { 
     match is-active=false
-    opacity 0.9
+    opacity 1.0
 }
 
 // ============================================================================
@@ -197,7 +198,7 @@ environment {
     
     // Qt theming: kde platform reads colors from kdeglobals (requires plasma-integration pkg)
     // The installer falls back to qt6ct only if plasma-integration is not installed
-    QT_QPA_PLATFORMTHEME "kde"
+    QT_QPA_PLATFORMTHEME "qt6ct"
     QT_STYLE_OVERRIDE "Darkly"
     
     // Quickshell Python virtual environment
@@ -214,6 +215,7 @@ spawn-at-startup "bash" "-c" "systemctl --user import-environment XDG_MENU_PREFI
 spawn-at-startup "bash" "-c" "wl-paste --watch cliphist store &"
 spawn-at-startup "/usr/lib/mate-polkit/polkit-mate-authentication-agent-1"
 spawn-at-startup "qs" "-c" "ii"
+spawn-at-startup "nm-applet"
 
 // ============================================================================
 // KEYBINDINGS
@@ -229,6 +231,9 @@ binds {
     Alt+Tab { spawn "qs" "-c" "ii" "ipc" "call" "altSwitcher" "next"; }
     Alt+Shift+Tab { spawn "qs" "-c" "ii" "ipc" "call" "altSwitcher" "previous"; }
     
+    // Fuzzel App Launcher on Super key alone
+    Super_L { spawn "fuzzel"; }
+
     // ii Overlay
     Super+G { spawn "qs" "-c" "ii" "ipc" "call" "overlay" "toggle"; }
 
@@ -261,7 +266,7 @@ binds {
     // Applications (uses configured terminal from Settings)
     Mod+T { spawn "bash" "-c" "$HOME/.config/quickshell/ii/scripts/launch-terminal.sh"; }
     Mod+Return { spawn "bash" "-c" "$HOME/.config/quickshell/ii/scripts/launch-terminal.sh"; }
-    Super+E { spawn "nautilus"; }
+    Super+E { spawn "dolphin"; }
     Super+W { spawn "bash" "-c" "xdg-open https://"; }
     
     // Window management

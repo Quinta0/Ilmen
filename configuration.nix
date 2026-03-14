@@ -109,8 +109,10 @@ in
   environment.systemPackages = with pkgs; [
     vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
+    networkmanagerapplet
     niri
-
+    kdePackages.qwt
+    
     # Core dependencies for iNiR/Quickshell
     bc coreutils cliphist curl ripgrep jq python311 python311Packages.pillow python311Packages.evdev 
     xdg-user-dirs xdg-utils rsync wl-clipboard libnotify wlsunset 
@@ -126,6 +128,7 @@ in
       buildInputs = [ pkgs.makeWrapper ];
       postBuild = ''
         wrapProgram $out/bin/quickshell \
+          --run 'ulimit -s 65536' \
           --prefix QML2_IMPORT_PATH : "${pkgs.kdePackages.kirigami.unwrapped}/lib/qt-6/qml:${pkgs.kdePackages.syntax-highlighting}/lib/qt-6/qml" \
           --prefix NIXPKGS_QT6_QML_IMPORT_PATH : "${pkgs.kdePackages.kirigami.unwrapped}/lib/qt-6/qml:${pkgs.kdePackages.syntax-highlighting}/lib/qt-6/qml" \
           --prefix PATH : "${pkgs.lib.makeBinPath [ pkgs.coreutils pkgs.findutils pkgs.procps pkgs.curl pkgs.gawk pkgs.imagemagick pkgs.socat pkgs.glib pkgs.fish pkgs.mpv pkgs.yt-dlp ]}"
@@ -139,6 +142,7 @@ in
     qt6.qtmultimedia qt6.qtpositioning qt6.qtquicktimeline qt6.qtsensors qt6.qttools 
     qt6.qttranslations qt6.qtvirtualkeyboard
     kdePackages.kirigami kdePackages.kdialog kdePackages.breeze-icons kdePackages.plasma-integration
+    # kdePackages.knewstuff kdePackages.kdeclarative kdePackages.kconfig
   ];
 
   # Fonts
